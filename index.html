@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECE Lab Inventory System</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -14,14 +16,13 @@
                 extend: {
                     colors: {
                         ece: {
-                            // Replaced blues with soft, warm yellows/ambers
-                            primary: '#FBBF24', // Amber-400 - Pleasant yellow, not too bright
-                            primaryHover: '#F59E0B', // Amber-500
-                            accent: '#FDE68A', // Amber-200 - For highlights
-                            dark: '#18181B', // Zinc-900 - Darker background
-                            darker: '#09090B', // Zinc-950 - Very dark background
-                            surface: '#27272A', // Zinc-800 - Surface cards
-                            surfaceHover: '#3F3F46' // Zinc-700
+                            primary: '#FBBF24', // Warm Amber / Yellow
+                            primaryHover: '#F59E0B', 
+                            accent: '#FDE68A', 
+                            dark: '#18181B', 
+                            darker: '#09090B', 
+                            surface: '#27272A', 
+                            surfaceHover: '#3F3F46'
                         }
                     },
                     fontFamily: {
@@ -36,125 +37,41 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #09090B; /* Tailwind ece.darker */
+            background-color: #09090B;
             color: #f8fafc;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #18181B; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #3F3F46; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #FBBF24; 
-        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #18181B; }
+        ::-webkit-scrollbar-thumb { background: #3F3F46; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FBBF24; }
 
-        /* Print Styles */
         @media print {
-            body {
-                background-color: white !important;
-                color: black !important;
-            }
-            .no-print {
-                display: none !important;
-            }
-            .print-only {
-                display: block !important;
-            }
-            .print-container {
-                padding: 0 !important;
-                margin: 0 !important;
-                width: 100% !important;
-                max-width: none !important;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid #cbd5e1 !important;
-                color: black !important;
-                padding: 8px !important;
-            }
-            th {
-                background-color: #f1f5f9 !important;
-                color: black !important;
-                -webkit-print-color-adjust: exact;
-            }
-            .text-ece-primary, .text-emerald-400, .text-red-400 {
-                color: black !important;
-            }
-            .bg-ece-surface, .bg-ece-dark {
-                background-color: white !important;
-                border: none !important;
-                box-shadow: none !important;
-            }
-            /* Ensure the title is clearly visible when printed */
-            #printHeader {
-                text-align: center;
-                margin-bottom: 20px;
-                border-bottom: 2px solid #000;
-                padding-bottom: 10px;
-            }
-        }
-
-        /* Modal Transitions */
-        .modal-enter {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        .modal-enter-active {
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 300ms, transform 300ms;
-        }
-        .modal-exit {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .modal-exit-active {
-            opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 300ms, transform 300ms;
-        }
-        
-        .quantity-change-up {
-            animation: flashGreen 1s ease-out;
-        }
-        .quantity-change-down {
-            animation: flashRed 1s ease-out;
-        }
-
-        @keyframes flashGreen {
-            0% { color: #34d399; text-shadow: 0 0 10px #34d399; }
-            100% { color: inherit; text-shadow: none; }
-        }
-        @keyframes flashRed {
-            0% { color: #f87171; text-shadow: 0 0 10px #f87171; }
-            100% { color: inherit; text-shadow: none; }
+            body { background-color: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .print-container { padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: none !important; }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { border: 1px solid #cbd5e1 !important; color: black !important; padding: 8px !important; }
+            th { background-color: #f1f5f9 !important; -webkit-print-color-adjust: exact; }
+            .text-ece-primary, .text-emerald-400, .text-red-400 { color: black !important; }
+            .bg-ece-surface, .bg-ece-dark { background-color: white !important; border: none !important; box-shadow: none !important; }
+            #printHeader { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
         }
     </style>
 </head>
 <body class="bg-ece-darker text-slate-200 antialiased h-screen flex overflow-hidden">
 
-    <!-- Auth Container Overlay -->
     <div id="authContainer" class="fixed inset-0 z-[100] flex items-center justify-center bg-ece-darker bg-opacity-95 backdrop-blur-md transition-opacity duration-300">
         <div class="bg-ece-surface border border-slate-700 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4 relative overflow-hidden">
-            <!-- Header -->
             <div class="text-center mb-8">
-                <i class="fa-solid fa-microchip text-ece-primary text-4xl mb-3 shadow-[0_0_15px_rgba(251,191,36,0.3)]"></i>
-                <h2 class="text-2xl font-bold text-white">ECE Lab System</h2>
-                <p class="text-sm text-slate-400 mt-1" id="authSubtitle">Sign in to continue</p>
+                <i class="fa-solid fa-cloud text-ece-primary text-4xl mb-3 shadow-[0_0_15px_rgba(251,191,36,0.3)]"></i>
+                <h2 class="text-2xl font-bold text-white">ECE Lab Cloud</h2>
+                <p class="text-sm text-slate-400 mt-1" id="authSubtitle">Connecting to Cloud Database...</p>
             </div>
 
             <!-- Login Form -->
-            <form id="loginForm" class="space-y-5">
+            <form id="loginForm" class="space-y-5 hidden">
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">CDM Email</label>
                     <input type="email" id="loginEmail" placeholder="juan@cdm.edu.ph" required class="w-full bg-ece-dark border border-slate-600 rounded-lg py-2.5 px-3 text-slate-200 focus:ring-1 focus:ring-ece-primary focus:border-ece-primary outline-none transition-colors">
@@ -167,7 +84,7 @@
                 <p class="text-center text-sm text-slate-400 mt-4">New here? <a href="#" onclick="toggleAuthMode('signup')" class="text-ece-primary hover:underline transition-colors">Create an account</a></p>
             </form>
 
-            <!-- Signup Form (Hidden initially) -->
+            <!-- Signup Form -->
             <form id="signupForm" class="space-y-5 hidden">
                 <div>
                     <label class="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
@@ -204,25 +121,20 @@
             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4 px-2 mt-2">Management</p>
             <nav class="space-y-1">
                 <a href="#" class="flex items-center px-2 py-2.5 text-sm font-medium rounded-lg bg-ece-primary bg-opacity-10 text-ece-primary border-l-4 border-ece-primary group transition-colors">
-                    <i class="fa-solid fa-boxes-stacked w-6 text-center mr-2"></i>
-                    Inventory Dashboard
+                    <i class="fa-solid fa-boxes-stacked w-6 text-center mr-2"></i> Inventory Dashboard
                 </a>
                 <a href="#" onclick="showSessionHistory()" class="flex items-center px-2 py-2.5 text-sm font-medium rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white group transition-colors border-l-4 border-transparent">
-                    <i class="fa-solid fa-clock-rotate-left w-6 text-center mr-2"></i>
-                    Session History
+                    <i class="fa-solid fa-clock-rotate-left w-6 text-center mr-2"></i> Session History
                 </a>
                 <a href="#" onclick="exportToCSV()" class="flex items-center px-2 py-2.5 text-sm font-medium rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white group transition-colors border-l-4 border-transparent">
-                    <i class="fa-solid fa-file-excel w-6 text-center mr-2"></i>
-                    Export to Excel
+                    <i class="fa-solid fa-file-excel w-6 text-center mr-2"></i> Export to Excel
                 </a>
                 <a href="#" onclick="printInventory()" class="flex items-center px-2 py-2.5 text-sm font-medium rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white group transition-colors border-l-4 border-transparent">
-                    <i class="fa-solid fa-print w-6 text-center mr-2"></i>
-                    Print Report
+                    <i class="fa-solid fa-print w-6 text-center mr-2"></i> Print Report
                 </a>
                 <a href="#" id="navUserManagement" onclick="openUserManagement()" class="hidden items-center justify-between px-2 py-2.5 text-sm font-medium rounded-lg text-amber-400 hover:bg-slate-800 hover:text-amber-300 group transition-colors border-l-4 border-transparent mt-4 border-t border-slate-800 pt-4">
                     <div class="flex items-center">
-                        <i class="fa-solid fa-users-gear w-6 text-center mr-2"></i>
-                        User Management
+                        <i class="fa-solid fa-users-gear w-6 text-center mr-2"></i> User Management
                     </div>
                     <span id="sidebarPendingBadge" class="hidden bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
                 </a>
@@ -234,17 +146,13 @@
                     <i class="fa-solid fa-gear"></i>
                 </button>
             </div>
-            <nav class="space-y-1" id="categoryFilterNav">
-                <!-- Populated via JS -->
-            </nav>
+            <nav class="space-y-1" id="categoryFilterNav"></nav>
         </div>
 
         <div class="p-4 border-t border-slate-800">
             <div class="flex items-center justify-between">
                 <div class="flex items-center cursor-pointer hover:opacity-80 transition-opacity" onclick="openProfileModal()" title="Edit Profile">
-                    <div id="userAvatar" class="h-8 w-8 rounded-full bg-ece-surface flex items-center justify-center border border-ece-primary border-opacity-50 text-ece-primary font-bold bg-cover bg-center overflow-hidden">
-                        U
-                    </div>
+                    <div id="userAvatar" class="h-8 w-8 rounded-full bg-ece-surface flex items-center justify-center border border-ece-primary border-opacity-50 text-ece-primary font-bold bg-cover bg-center overflow-hidden">U</div>
                     <div class="ml-3">
                         <p id="userNameDisplay" class="text-sm font-medium text-white truncate max-w-[100px]">User</p>
                         <p id="userRoleDisplay" class="text-xs text-slate-400">Lab Tech</p>
@@ -257,10 +165,9 @@
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="flex-1 flex flex-col h-full overflow-hidden relative w-full print-container">
         
-        <!-- Mobile Header (Hidden on print) -->
+        <!-- Mobile Header -->
         <header class="h-16 flex items-center justify-between px-4 border-b border-slate-800 bg-ece-dark md:hidden no-print z-10 relative">
             <div class="flex items-center">
                 <button id="mobileMenuBtn" class="text-slate-400 hover:text-white p-2 mr-2 rounded-md hover:bg-slate-800 focus:outline-none">
@@ -274,16 +181,10 @@
                     <i class="fa-solid fa-bell"></i>
                     <span id="mobilePendingBadge" class="absolute top-1 right-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white">0</span>
                 </button>
-                <button onclick="exportToCSV()" class="text-slate-400 hover:text-white p-2 rounded-md hover:bg-slate-800 mr-1" title="Export to Excel">
-                    <i class="fa-solid fa-file-excel"></i>
-                </button>
-                <button onclick="printInventory()" class="text-slate-400 hover:text-white p-2 rounded-md hover:bg-slate-800" title="Print Report">
-                    <i class="fa-solid fa-print"></i>
-                </button>
             </div>
         </header>
 
-        <!-- Print Only Header -->
+        <!-- Print Header -->
         <div id="printHeader" class="hidden print-only mt-8">
             <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">Electronics Engineering Laboratory</h1>
             <h2 style="font-size: 18px; color: #555; margin-bottom: 15px;">Official Inventory Report</h2>
@@ -293,15 +194,14 @@
             </div>
         </div>
 
-        <!-- Toolbar (Hidden on print) -->
         <div class="bg-ece-dark border-b border-slate-800 p-4 md:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print shrink-0">
             <div class="flex items-center gap-4">
                 <h1 class="text-2xl font-bold text-white hidden md:block">Equipment Inventory</h1>
                 
-                <div id="sessionTracker" class="flex items-center bg-ece-surface px-3 py-1.5 rounded-lg border border-slate-700">
+                <div id="sessionTracker" class="flex items-center bg-ece-surface px-3 py-1.5 rounded-lg border border-slate-700 hidden">
                     <div id="sessionStatusIndicator" class="w-2.5 h-2.5 rounded-full bg-slate-500 mr-2 shadow-[0_0_5px_rgba(100,116,139,0.8)]"></div>
                     <span id="sessionTimer" class="font-mono text-sm mr-3 text-slate-300">00:00:00</span>
-                    <button id="sessionBtn" class="bg-ece-surface hover:bg-ece-surfaceHover text-white text-xs font-semibold py-1 px-3 rounded shadow transition-colors border border-ece-primary border-opacity-30">
+                    <button onclick="toggleSession()" id="sessionBtn" class="bg-ece-surface hover:bg-ece-surfaceHover text-white text-xs font-semibold py-1 px-3 rounded shadow transition-colors border border-ece-primary border-opacity-30">
                         Start Session
                     </button>
                 </div>
@@ -316,18 +216,16 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fa-solid fa-search text-slate-500"></i>
                     </div>
-                    <input type="text" id="searchInput" class="block w-full pl-10 pr-3 py-2 border border-slate-700 rounded-lg leading-5 bg-ece-surface text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-ece-primary focus:border-ece-primary sm:text-sm transition-colors" placeholder="Search equipment...">
+                    <input type="text" id="searchInput" class="block w-full pl-10 pr-3 py-2 border border-slate-700 rounded-lg leading-5 bg-ece-surface text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-ece-primary sm:text-sm transition-colors" placeholder="Search equipment...">
                 </div>
-                <button id="addItemBtn" onclick="openModal('add')" class="bg-ece-primary text-ece-darker hover:bg-ece-primaryHover font-bold py-2 px-4 rounded-lg shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all flex items-center whitespace-nowrap">
+                <button id="addItemBtn" onclick="openModal('add')" class="hidden bg-ece-primary text-ece-darker hover:bg-ece-primaryHover font-bold py-2 px-4 rounded-lg shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all flex items-center whitespace-nowrap">
                     <i class="fa-solid fa-plus mr-2"></i> Add Item
                 </button>
             </div>
         </div>
 
-        <!-- Content Area -->
         <div class="flex-1 p-4 md:p-8 overflow-y-auto bg-ece-darker print-container">
             
-            <!-- Stats overview (hidden on print) -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 no-print">
                 <div class="bg-ece-surface border border-slate-800 rounded-xl p-4 flex flex-col justify-center">
                     <span class="text-slate-400 text-xs uppercase font-semibold tracking-wider">Total Items</span>
@@ -354,10 +252,10 @@
                         <i class="fa-solid fa-bolt text-ece-primary mr-2"></i> Live Activity Feed
                     </h3>
                     <div class="flex items-center text-xs text-slate-400">
-                        <span class="mr-2">Real-time Sync</span>
+                        <span class="mr-2">Cloud Sync Active</span>
                         <span class="relative flex h-2.5 w-2.5">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                         </span>
                     </div>
                 </div>
@@ -366,64 +264,39 @@
                 </div>
             </div>
 
-            <!-- Table Container -->
             <div class="bg-ece-surface rounded-xl shadow-lg border border-slate-800 overflow-hidden print-container">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-800">
                         <thead class="bg-slate-800 bg-opacity-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white" onclick="sortTable('id')">
-                                    ID <i class="fa-solid fa-sort ml-1"></i>
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white" onclick="sortTable('name')">
-                                    Equipment Name <i class="fa-solid fa-sort ml-1"></i>
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white hidden sm:table-cell" onclick="sortTable('category')">
-                                    Category <i class="fa-solid fa-sort ml-1"></i>
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white" onclick="sortTable('quantity')">
-                                    Qty <i class="fa-solid fa-sort ml-1"></i>
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider hidden md:table-cell">
-                                    Last Check (Diff)
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider hidden lg:table-cell">
-                                    Location
-                                </th>
-                                <th id="actionsHeader" scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider no-print">
-                                    Actions
-                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase cursor-pointer hover:text-white" onclick="sortTable('id')">ID <i class="fa-solid fa-sort ml-1"></i></th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase cursor-pointer hover:text-white" onclick="sortTable('name')">Equipment <i class="fa-solid fa-sort ml-1"></i></th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase cursor-pointer hover:text-white hidden sm:table-cell" onclick="sortTable('category')">Category <i class="fa-solid fa-sort ml-1"></i></th>
+                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase cursor-pointer hover:text-white" onclick="sortTable('quantity')">Qty <i class="fa-solid fa-sort ml-1"></i></th>
+                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase hidden md:table-cell">Last Check</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase hidden lg:table-cell">Location</th>
+                                <th id="actionsHeader" scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase no-print hidden">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="inventoryTableBody" class="bg-ece-surface divide-y divide-slate-800">
-                            <!-- Rows populated via JS -->
-                        </tbody>
+                        <tbody id="inventoryTableBody" class="bg-ece-surface divide-y divide-slate-800"></tbody>
                     </table>
                 </div>
-                <!-- Empty State -->
                 <div id="emptyState" class="hidden flex flex-col items-center justify-center py-12 text-slate-400">
                     <i class="fa-solid fa-boxes-stacked text-4xl mb-4 opacity-50"></i>
                     <p class="text-lg font-medium">No equipment found</p>
-                    <p class="text-sm">Try adjusting your search or add a new item.</p>
                 </div>
             </div>
-            
-            <p class="text-center text-xs text-slate-500 mt-6 no-print">ECE Laboratory Inventory Management System &copy; <span id="currentYear"></span></p>
+            <p class="text-center text-xs text-slate-500 mt-6 no-print">ECE Laboratory Inventory System &copy; <span id="currentYear"></span></p>
         </div>
     </main>
 
-    <!-- Mobile Sidebar Overlay -->
     <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden md:hidden no-print backdrop-blur-sm transition-opacity"></div>
 
-            <!-- Add/Edit Item Modal -->
-    <div id="itemModal" class="fixed inset-0 z-50 hidden overflow-y-auto no-print" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!-- Add/Edit Item Modal -->
+    <div id="itemModal" class="fixed inset-0 z-[105] hidden overflow-y-auto no-print">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <!-- Background overlay -->
-            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" aria-hidden="true" onclick="closeModal()"></div>
-
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <!-- Modal panel -->
+            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" onclick="closeModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             <div class="inline-block align-bottom bg-ece-surface border border-slate-700 rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
                 <div class="bg-ece-surface px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-slate-700">
                     <div class="sm:flex sm:items-start">
@@ -433,61 +306,50 @@
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                             <div class="flex justify-between items-center">
                                 <h3 class="text-lg leading-6 font-medium text-white" id="modalTitle">Add New Equipment</h3>
-                                <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors p-1" title="Close">
-                                    <i class="fa-solid fa-xmark text-xl"></i>
-                                </button>
+                                <button type="button" onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors p-1"><i class="fa-solid fa-xmark text-xl"></i></button>
                             </div>
                             <div class="mt-4">
                                 <form id="itemForm" class="space-y-4">
                                     <input type="hidden" id="itemId">
-                                    
                                     <div>
-                                        <label for="itemName" class="block text-sm font-medium text-slate-300">Equipment Name *</label>
-                                        <input type="text" id="itemName" required placeholder="e.g., Oscilloscope" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm">
+                                        <label class="block text-sm font-medium text-slate-300">Equipment Name *</label>
+                                        <input type="text" id="itemName" required class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
                                     </div>
-
                                     <div>
-                                        <label for="itemBrand" class="block text-sm font-medium text-slate-300">Brand Name</label>
-                                        <input type="text" id="itemBrand" placeholder="e.g., Tektronix, Fluke" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm">
+                                        <label class="block text-sm font-medium text-slate-300">Brand Name</label>
+                                        <input type="text" id="itemBrand" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
                                     </div>
-                                    
                                     <div>
-                                        <label for="itemCategory" class="block text-sm font-medium text-slate-300">Category *</label>
-                                        <select id="itemCategory" required class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm appearance-none">
-                                            <!-- Populated dynamically via JS -->
-                                        </select>
+                                        <label class="block text-sm font-medium text-slate-300">Category *</label>
+                                        <select id="itemCategory" required class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary appearance-none"></select>
                                     </div>
-                                    
                                     <div>
-                                        <label for="itemQuantity" class="block text-sm font-medium text-slate-300">Quantity *</label>
-                                        <input type="number" id="itemQuantity" min="0" required class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm">
+                                        <label class="block text-sm font-medium text-slate-300">Quantity *</label>
+                                        <input type="number" id="itemQuantity" min="0" required class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
                                     </div>
-
                                     <div class="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label for="itemLocation" class="block text-sm font-medium text-slate-300">Location</label>
-                                            <input type="text" id="itemLocation" placeholder="e.g., Cabinet A, Shelf 2" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm">
+                                            <label class="block text-sm font-medium text-slate-300">Location</label>
+                                            <input type="text" id="itemLocation" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
                                         </div>
                                         <div>
-                                            <label for="itemValue" class="block text-sm font-medium text-slate-300">Est. Value (₱)</label>
-                                            <input type="number" id="itemValue" min="0" step="0.01" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm">
+                                            <label class="block text-sm font-medium text-slate-300">Est. Value (₱)</label>
+                                            <input type="number" id="itemValue" min="0" step="0.01" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
                                         </div>
                                     </div>
-
                                     <div class="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label for="itemDamage" class="block text-sm font-medium text-slate-300">Damage</label>
-                                            <input type="text" id="itemDamage" placeholder="e.g., Scratched screen" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm">
+                                            <label class="block text-sm font-medium text-slate-300">Damage Details</label>
+                                            <input type="text" id="itemDamage" placeholder="e.g., Broken screen" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
                                         </div>
                                         <div>
-                                            <label for="itemMissing" class="block text-sm font-medium text-slate-300">Missing Parts</label>
-                                            <input type="text" id="itemMissing" placeholder="e.g., 1 probe missing" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm">
+                                            <label class="block text-sm font-medium text-slate-300">Missing Parts</label>
+                                            <input type="text" id="itemMissing" placeholder="e.g., Power cable" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
                                         </div>
                                     </div>
-
                                     <div>
-                                        <label for="itemNotes" class="block text-sm font-medium text-slate-300">Notes (Condition, etc.)</label>
-                                        <textarea id="itemNotes" rows="2" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md shadow-sm py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary focus:border-ece-primary sm:text-sm"></textarea>
+                                        <label class="block text-sm font-medium text-slate-300">Notes</label>
+                                        <textarea id="itemNotes" rows="2" class="mt-1 block w-full bg-ece-dark border border-slate-600 rounded-md py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary"></textarea>
                                     </div>
                                 </form>
                             </div>
@@ -495,60 +357,48 @@
                     </div>
                 </div>
                 <div class="bg-ece-darker px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-slate-800">
-                    <button type="button" onclick="saveItem()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-ece-primary text-base font-medium text-ece-darker hover:bg-ece-primaryHover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-ece-primary sm:ml-3 sm:w-auto sm:text-sm font-bold">
-                        Save Item
-                    </button>
-                    <button type="button" onclick="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-300 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-slate-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Cancel
-                    </button>
+                    <button type="button" onclick="saveItem()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-ece-primary text-base font-medium text-ece-darker hover:bg-ece-primaryHover sm:ml-3 sm:w-auto sm:text-sm font-bold">Save Item</button>
+                    <button type="button" onclick="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-300 hover:bg-slate-700 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Category Management Modal -->
-    <div id="categoryModal" class="fixed inset-0 z-[55] hidden overflow-y-auto no-print" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!-- Category Modal -->
+    <div id="categoryModal" class="fixed inset-0 z-[55] hidden overflow-y-auto no-print">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" aria-hidden="true" onclick="closeCategoryModal()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" onclick="closeCategoryModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             <div class="inline-block align-bottom bg-ece-surface border border-slate-700 rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full">
                 <div class="bg-ece-surface px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-slate-700">
                     <h3 class="text-lg leading-6 font-medium text-white mb-4"><i class="fa-solid fa-tags text-ece-primary mr-2"></i> Manage Categories</h3>
-                    
                     <div class="flex gap-2 mb-4">
-                        <input type="text" id="newCategoryName" placeholder="New Category Name" class="flex-1 bg-ece-dark border border-slate-600 rounded-lg py-2 px-3 text-slate-200 focus:outline-none focus:ring-1 focus:ring-ece-primary">
-                        <button onclick="addCategory()" class="bg-ece-primary text-ece-darker font-bold py-2 px-4 rounded-lg hover:bg-ece-primaryHover transition-colors"><i class="fa-solid fa-plus"></i></button>
+                        <input type="text" id="newCategoryName" placeholder="New Category Name" class="flex-1 bg-ece-dark border border-slate-600 rounded-lg py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
+                        <button onclick="addCategory()" class="bg-ece-primary text-ece-darker font-bold py-2 px-4 rounded-lg hover:bg-ece-primaryHover"><i class="fa-solid fa-plus"></i></button>
                     </div>
-
                     <div class="max-h-60 overflow-y-auto pr-2">
-                        <ul id="categoryList" class="divide-y divide-slate-700">
-                            <!-- Populated via JS -->
-                        </ul>
+                        <ul id="categoryList" class="divide-y divide-slate-700"></ul>
                     </div>
                 </div>
                 <div class="bg-ece-darker px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-slate-800">
-                    <button type="button" onclick="closeCategoryModal()" class="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-300 hover:bg-slate-700 sm:w-auto sm:text-sm">
-                        Close
-                    </button>
+                    <button type="button" onclick="closeCategoryModal()" class="w-full inline-flex justify-center rounded-md border border-slate-600 px-4 py-2 bg-slate-800 text-slate-300 hover:bg-slate-700 sm:w-auto sm:text-sm">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit Profile Modal -->
-    <div id="profileModal" class="fixed inset-0 z-[60] hidden overflow-y-auto no-print" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!-- Profile Modal -->
+    <div id="profileModal" class="fixed inset-0 z-[60] hidden overflow-y-auto no-print">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" aria-hidden="true" onclick="closeProfileModal()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" onclick="closeProfileModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             <div class="inline-block align-bottom bg-ece-surface border border-slate-700 rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full">
                 <div class="bg-ece-surface px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-slate-700">
                     <h3 class="text-lg leading-6 font-medium text-white mb-4"><i class="fa-solid fa-user-pen text-ece-primary mr-2"></i> Edit Profile</h3>
                     <form id="profileForm" class="space-y-4">
                         <div class="flex justify-center mb-4">
                             <div class="relative">
-                                <div id="profilePreview" class="h-20 w-20 rounded-full bg-ece-dark border-2 border-ece-primary flex items-center justify-center text-2xl text-ece-primary font-bold overflow-hidden bg-cover bg-center">
-                                    U
-                                </div>
+                                <div id="profilePreview" class="h-20 w-20 rounded-full bg-ece-dark border-2 border-ece-primary flex items-center justify-center text-2xl text-ece-primary font-bold overflow-hidden bg-cover bg-center">U</div>
                                 <label for="profilePicInput" class="absolute bottom-0 right-0 bg-ece-primary text-ece-darker rounded-full h-7 w-7 flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform">
                                     <i class="fa-solid fa-camera text-xs"></i>
                                 </label>
@@ -557,11 +407,11 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
-                            <input type="text" id="profileName" required class="w-full bg-ece-dark border border-slate-600 rounded-lg py-2 px-3 text-slate-200 focus:outline-none focus:ring-1 focus:ring-ece-primary">
+                            <input type="text" id="profileName" required class="w-full bg-ece-dark border border-slate-600 rounded-lg py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-1">Position / Role</label>
-                            <select id="profileRole" class="w-full bg-ece-dark border border-slate-600 rounded-lg py-2 px-3 text-slate-200 focus:outline-none focus:ring-1 focus:ring-ece-primary appearance-none">
+                            <label class="block text-sm font-medium text-slate-300 mb-1">Role</label>
+                            <select id="profileRole" class="w-full bg-ece-dark border border-slate-600 rounded-lg py-2 px-3 text-slate-200 focus:outline-none focus:ring-ece-primary appearance-none">
                                 <option value="Admin">Admin</option>
                                 <option value="Student Assistant">Student Assistant</option>
                                 <option value="Guest">Guest</option>
@@ -570,173 +420,289 @@
                     </form>
                 </div>
                 <div class="bg-ece-darker px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-slate-800">
-                    <button type="button" onclick="saveProfile()" class="w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-ece-primary text-base font-bold text-ece-darker hover:bg-ece-primaryHover sm:ml-3 sm:w-auto sm:text-sm">
-                        Save Changes
-                    </button>
-                    <button type="button" onclick="closeProfileModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-300 hover:bg-slate-700 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Cancel
-                    </button>
+                    <button type="button" onclick="saveProfile()" class="w-full inline-flex justify-center rounded-md px-4 py-2 bg-ece-primary text-ece-darker font-bold hover:bg-ece-primaryHover sm:ml-3 sm:w-auto sm:text-sm">Save Changes</button>
+                    <button type="button" onclick="closeProfileModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 px-4 py-2 bg-slate-800 text-slate-300 hover:bg-slate-700 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- User Management Modal -->
-    <div id="userModal" class="fixed inset-0 z-[55] hidden overflow-y-auto no-print" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="userModal" class="fixed inset-0 z-[55] hidden overflow-y-auto no-print">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" aria-hidden="true" onclick="closeUserManagement()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" onclick="closeUserManagement()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             <div class="inline-block align-bottom bg-ece-surface border border-slate-700 rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full">
                 <div class="bg-ece-surface px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-slate-700">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-lg leading-6 font-medium text-white"><i class="fa-solid fa-users-gear text-ece-primary mr-2"></i> User Management</h3>
-                        <button onclick="closeUserManagement()" class="text-slate-400 hover:text-white transition-colors">
-                            <i class="fa-solid fa-xmark text-xl"></i>
-                        </button>
+                        <button onclick="closeUserManagement()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-slate-800">
                             <thead class="bg-slate-800 bg-opacity-50">
                                 <tr>
-                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Name / Role</th>
-                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Email</th>
-                                    <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-slate-400 uppercase tracking-wider">Status</th>
-                                    <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">Actions</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Name / Role</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase">Email</th>
+                                    <th class="px-4 py-3 text-center text-xs font-medium text-slate-400 uppercase">Status</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="userTableBody" class="bg-ece-surface divide-y divide-slate-800">
-                                <!-- Populated via JS -->
-                            </tbody>
+                            <tbody id="userTableBody" class="bg-ece-surface divide-y divide-slate-800"></tbody>
                         </table>
                     </div>
                 </div>
                 <div class="bg-ece-darker px-4 py-3 sm:px-6 flex justify-end border-t border-slate-800">
-                    <button type="button" onclick="closeUserManagement()" class="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-300 hover:bg-slate-700 sm:w-auto sm:text-sm">
-                        Close
-                    </button>
+                    <button type="button" onclick="closeUserManagement()" class="w-full inline-flex justify-center rounded-md border border-slate-600 px-4 py-2 bg-slate-800 text-slate-300 hover:bg-slate-700 sm:w-auto sm:text-sm">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Session History Modal -->
-    <div id="historyModal" class="fixed inset-0 z-[55] hidden overflow-y-auto no-print" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="historyModal" class="fixed inset-0 z-[55] hidden overflow-y-auto no-print">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" aria-hidden="true" onclick="closeHistoryModal()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity backdrop-blur-sm" onclick="closeHistoryModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             <div class="inline-block align-bottom bg-ece-surface border border-slate-700 rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
                 <div class="bg-ece-surface px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-slate-700">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-lg leading-6 font-medium text-white"><i class="fa-solid fa-clock-rotate-left text-ece-primary mr-2"></i> Session History</h3>
-                        <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-white transition-colors">
-                            <i class="fa-solid fa-xmark text-xl"></i>
-                        </button>
+                        <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
                     </div>
                     <div class="max-h-96 overflow-y-auto pr-2">
-                        <ul id="historyList" class="divide-y divide-slate-700">
-                            <!-- Populated via JS -->
-                        </ul>
+                        <ul id="historyList" class="divide-y divide-slate-700"></ul>
                     </div>
                 </div>
                 <div class="bg-ece-darker px-4 py-3 sm:px-6 flex justify-end border-t border-slate-800">
-                    <button type="button" onclick="closeHistoryModal()" class="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-300 hover:bg-slate-700 sm:w-auto sm:text-sm">
-                        Close
-                    </button>
+                    <button type="button" onclick="closeHistoryModal()" class="w-full inline-flex justify-center rounded-md border border-slate-600 px-4 py-2 bg-slate-800 text-slate-300 hover:bg-slate-700 sm:w-auto sm:text-sm">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-4 right-4 bg-ece-surface border-l-4 border-ece-primary text-white px-4 py-3 rounded shadow-lg transform transition-all duration-300 translate-y-20 opacity-0 z-50 flex items-center">
+    <div id="toast" class="fixed bottom-4 right-4 bg-ece-surface border-l-4 border-ece-primary text-white px-4 py-3 rounded shadow-lg transform transition-all duration-300 translate-y-20 opacity-0 z-[150] flex items-center">
         <i id="toastIcon" class="fa-solid fa-circle-check text-ece-primary mr-3"></i>
         <span id="toastMessage">Action successful.</span>
     </div>
 
-    <script>
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // State Management
+        // --- YOUR FIREBASE KEYS ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCBDzOxOGOAmFxiwH2Z--F-709D_hvu2yc",
+            authDomain: "ece-lab-system.firebaseapp.com",
+            projectId: "ece-lab-system",
+            storageBucket: "ece-lab-system.firebasestorage.app",
+            messagingSenderId: "814404339167",
+            appId: "1:814404339167:web:7dd923954f6ec55534706a",
+            measurementId: "G-5Q0J79HV6T"
+        };
+        const appId = 'ece-lab-cloud-system';
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
         let inventory = [];
         let sessions = [];
-        let activityLog = JSON.parse(localStorage.getItem('ece_activity')) || [];
+        let activityLog = [];
+        let authUsers = [];
+        let categories = [
+            { id: 'Measuring Instruments', name: 'Measuring Instruments', icon: 'fa-gauge-high' },
+            { id: 'Power Supplies', name: 'Power Supplies', icon: 'fa-plug' },
+            { id: 'Components', name: 'Components', icon: 'fa-microchip' },
+            { id: 'Tools', name: 'Tools', icon: 'fa-screwdriver-wrench' },
+            { id: 'Other', name: 'Other', icon: 'fa-box' }
+        ];
+
         let currentFilter = 'All';
         let currentSort = { column: 'name', direction: 'asc' };
         let editingId = null;
-        
-        // Auth State
-        let authUsers = JSON.parse(localStorage.getItem('ece_users')) || [];
         let currentUser = JSON.parse(localStorage.getItem('ece_current_user')) || null;
         
         let isSessionActive = false;
         let sessionStartTime = null;
         let sessionTimerInterval = null;
         let changesInCurrentSession = 0;
-        let previousQuantities = {}; // To track differences during a session
+        let previousQuantities = {}; 
         let pendingProfilePicBase64 = null;
 
-        const defaultCategories = [
-            { id: 'Measuring Instruments', name: 'Measuring Instruments', icon: 'fa-gauge-high' },
-            { id: 'Power Supplies', name: 'Power Supplies', icon: 'fa-plug' },
-            { id: 'Components', name: 'Components', icon: 'fa-microchip' },
-            { id: 'Tools', name: 'Tools', icon: 'fa-screwdriver-wrench' },
-            { id: 'Modules/Boards', name: 'Modules/Boards', icon: 'fa-server' },
-            { id: 'Safety Gear', name: 'Safety Gear', icon: 'fa-shield-halved' },
-            { id: 'Other', name: 'Other', icon: 'fa-box' }
-        ];
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        let categories = JSON.parse(localStorage.getItem('ece_categories')) || defaultCategories;
+        Object.assign(window, {
+            toggleAuthMode, showSessionHistory, exportToCSV, printInventory,
+            openUserManagement, openCategoryModal, openProfileModal, handleLogout,
+            openModal, closeModal, saveItem, deleteItem, quickAdjustQty,
+            closeCategoryModal, addCategory, renameCategory, deleteCategory,
+            closeProfileModal, previewProfilePic, saveProfile, closeUserManagement,
+            changeUserRole, updateUserStatus, unlockUser, deleteUser,
+            closeHistoryModal, sortTable, toggleSession, setFilter
+        });
 
-        function saveCategories() {
-            localStorage.setItem('ece_categories', JSON.stringify(categories));
-            renderSidebarCategories();
-            populateCategoryDropdown();
+        async function initFirebase() {
+            try {
+                await signInAnonymously(auth);
+                if (!auth.currentUser) return;
+                
+                // Initialize Admin if not exists
+                const adminDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', 'admin@cdm.edu.ph'));
+                if (!adminDoc.exists()) {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', 'admin@cdm.edu.ph'), {
+                        name: 'Master Admin', email: 'admin@cdm.edu.ph', password: '12345', role: 'Admin', status: 'approved', attempts: 0, lockUntil: null
+                    });
+                }
+
+                // Init system data blocks if they don't exist
+                const catDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'categories'));
+                if (!catDoc.exists()) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'categories'), { list: categories });
+                
+                const actDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'activity'));
+                if (!actDoc.exists()) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'activity'), { log: [] });
+                
+                const sesDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'sessions'));
+                if (!sesDoc.exists()) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'sessions'), { history: [] });
+
+                if (!currentUser) {
+                    document.getElementById('loginForm').classList.remove('hidden');
+                    document.getElementById('authSubtitle').textContent = "Sign in to continue";
+                }
+
+                setupRealtimeListeners();
+            } catch (e) {
+                console.error("Firebase init error:", e);
+                // Specifically catch the Anonymous Auth error and show instructions
+                if (e.code === 'auth/admin-restricted-operation') {
+                    document.getElementById('authContainer').innerHTML = `
+                        <div class="bg-ece-surface border border-red-500 rounded-2xl shadow-2xl p-8 w-full max-w-lg mx-4 text-center relative overflow-hidden">
+                            <i class="fa-solid fa-triangle-exclamation text-red-500 text-5xl mb-4 animate-pulse"></i>
+                            <h2 class="text-2xl font-bold text-white mb-2">Action Required in Firebase</h2>
+                            <p class="text-slate-300 mb-6">Your system is successfully communicating with Firebase, but Firebase is blocking logins because <b>Anonymous Authentication</b> is turned off.</p>
+                            <div class="text-left bg-ece-dark p-4 rounded-lg border border-slate-700 mb-6">
+                                <p class="font-bold text-ece-primary mb-2">How to fix this in 30 seconds:</p>
+                                <ol class="list-decimal list-inside text-sm text-slate-300 space-y-3">
+                                    <li>Go to your <a href="https://console.firebase.google.com/" target="_blank" class="text-blue-400 hover:underline">Firebase Console</a>.</li>
+                                    <li>On the left menu, click <b>Authentication</b>.</li>
+                                    <li>Click the <b>Sign-in method</b> tab at the top.</li>
+                                    <li>Look for <b>Anonymous</b> in the list, click it, toggle the switch to <b>Enable</b>, and click <b>Save</b>.</li>
+                                </ol>
+                            </div>
+                            <button onclick="window.location.reload()" class="w-full bg-ece-primary text-ece-darker font-bold py-3 rounded-lg hover:bg-ece-primaryHover transition-colors shadow-lg">I've enabled it, Refresh Page</button>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('authSubtitle').textContent = "Connection Error. Check console.";
+                    showToast("Failed to connect to Cloud Database.", "error");
+                }
+            }
         }
 
-        // Ensure Admin exists in the database
-        if (!authUsers.find(u => u.email === 'admin@cdm.edu.ph')) {
-            authUsers.push({
-                name: 'Master Admin',
-                email: 'admin@cdm.edu.ph',
-                password: '12345',
-                role: 'admin',
-                status: 'approved',
-                attempts: 0,
-                lockUntil: null
-            });
-            localStorage.setItem('ece_users', JSON.stringify(authUsers));
+        function setupRealtimeListeners() {
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'inventory'), (snap) => {
+                inventory = snap.docs.map(d => ({id: d.id, ...d.data()}));
+                renderSidebarCategories();
+                renderTable();
+                updateStats();
+            }, (err) => console.error(err));
+
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'users'), (snap) => {
+                authUsers = snap.docs.map(d => ({id: d.id, ...d.data()}));
+                
+                if (currentUser) {
+                    const dbUser = authUsers.find(u => u.email === currentUser.email);
+                    if (!dbUser || dbUser.status !== 'approved' || (dbUser.lockUntil && Date.now() < dbUser.lockUntil)) {
+                        currentUser = null;
+                        localStorage.removeItem('ece_current_user');
+                        initAuth();
+                        if (dbUser) showToast("Your account has been locked or deactivated.", "error");
+                    } else {
+                        currentUser = dbUser;
+                        localStorage.setItem('ece_current_user', JSON.stringify(currentUser));
+                        initAuth();
+                    }
+                }
+                
+                if (currentUser && currentUser.role.toLowerCase() === 'admin') {
+                    updatePendingBadges();
+                    if (!document.getElementById('userModal').classList.contains('hidden')) renderUserTable();
+                }
+            }, (err) => console.error(err));
+
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'appConfig'), (snap) => {
+                snap.docs.forEach(docSnap => {
+                    const data = docSnap.data();
+                    if (docSnap.id === 'categories' && data.list) {
+                        categories = data.list;
+                        renderSidebarCategories();
+                        populateCategoryDropdown();
+                        if (!document.getElementById('categoryModal').classList.contains('hidden')) renderCategoryManager();
+                    }
+                    if (docSnap.id === 'activity' && data.log) {
+                        activityLog = data.log;
+                        renderActivityLog();
+                    }
+                    if (docSnap.id === 'sessions' && data.history) {
+                        sessions = data.history;
+                    }
+                });
+            }, (err) => console.error(err));
         }
 
-        // Generate Mock Data on first load if localStorage is empty
-        function initializeData() {
-            const savedInventory = localStorage.getItem('ece_inventory');
-            const savedSessions = localStorage.getItem('ece_sessions');
-
-            if (savedInventory) {
-                inventory = JSON.parse(savedInventory);
-            } else {
-                inventory = [
-                    { id: generateId(), name: "Oscilloscope - Tektronix TBS1000", category: "Measuring Instruments", quantity: 5, lastCheckQty: 5, location: "Bench 1-5", value: 25000, notes: "Working condition", lastUpdated: new Date().toISOString() },
-                    { id: generateId(), name: "Digital Multimeter - Fluke 17B+", category: "Measuring Instruments", quantity: 12, lastCheckQty: 15, location: "Cabinet A, Sh 1", value: 8500, notes: "Need battery replacement for 2 units", lastUpdated: new Date(Date.now() - 86400000).toISOString() },
-                    { id: generateId(), name: "DC Power Supply - Rigol DP832", category: "Power Supplies", quantity: 6, lastCheckQty: 6, location: "Bench 1-6", value: 18000, notes: "", lastUpdated: new Date().toISOString() },
-                    { id: generateId(), name: "Function Generator - Siglent SDG1032X", category: "Measuring Instruments", quantity: 4, lastCheckQty: 4, location: "Bench 2-5", value: 21000, notes: "", lastUpdated: new Date().toISOString() },
-                    { id: generateId(), name: "Resistor Kit (1/4W 1%)", category: "Components", quantity: 15, lastCheckQty: 18, location: "Component Rack A", value: 1200, notes: "Low on 1k, 10k ohms", lastUpdated: new Date(Date.now() - 172800000).toISOString() },
-                    { id: generateId(), name: "Arduino Uno R3", category: "Modules/Boards", quantity: 20, lastCheckQty: 20, location: "Cabinet B, Box 1", value: 1500, notes: "", lastUpdated: new Date().toISOString() },
-                    { id: generateId(), name: "Breadboard (830 tie-points)", category: "Tools", quantity: 30, lastCheckQty: 28, location: "Cabinet B, Box 2", value: 250, notes: "Some are getting loose", lastUpdated: new Date().toISOString() },
-                    { id: generateId(), name: "Soldering Station - Hakko FX-888D", category: "Tools", quantity: 8, lastCheckQty: 8, location: "Soldering Area", value: 6500, notes: "Need new tips soon", lastUpdated: new Date().toISOString() },
-                    { id: generateId(), name: "Safety Goggles", category: "Safety Gear", quantity: 25, lastCheckQty: 25, location: "Entrance Rack", value: 150, notes: "", lastUpdated: new Date().toISOString() },
-                    { id: generateId(), name: "Capacitor Assortment Kit", category: "Components", quantity: 10, lastCheckQty: 10, location: "Component Rack B", value: 900, notes: "Mostly Electrolytic", lastUpdated: new Date().toISOString() }
-                ];
-                saveData();
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const user = authUsers.find(u => u.email === email);
+            
+            if (!user) { showToast('User not found. Please sign up.', 'error'); return; }
+            if (user.lockUntil && Date.now() < user.lockUntil) {
+                const remainingMins = Math.ceil((user.lockUntil - Date.now()) / 60000);
+                showToast(`Account locked. Try again in ${remainingMins} minutes.`, 'error'); return;
             }
 
-            if (savedSessions) {
-                sessions = JSON.parse(savedSessions);
+            if (user.password !== password) {
+                user.attempts = (user.attempts || 0) + 1;
+                if (user.attempts >= 3 && user.email !== 'admin@cdm.edu.ph') {
+                    user.lockUntil = Date.now() + (10 * 60 * 1000);
+                    showToast('Account locked due to multiple failed attempts.', 'error');
+                } else { showToast('Incorrect PIN.', 'error'); }
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', email), user);
+                return;
             }
-        }
 
-        // --- AUTHENTICATION LOGIC ---
-        
+            if (user.status === 'pending') { showToast('Account pending approval from Admin.', 'error'); return; }
+
+            user.attempts = 0;
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', email), user);
+            
+            currentUser = user;
+            localStorage.setItem('ece_current_user', JSON.stringify(currentUser));
+            initAuth();
+            showToast('Signed in successfully!', 'success');
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const role = document.getElementById('signupRole').value;
+            const password = document.getElementById('signupPassword').value.trim();
+
+            if (!/^[a-zA-Z0-9._%+-]+@cdm\.edu\.ph$/.test(email)) { showToast('Email must be a valid @cdm.edu.ph address.', 'error'); return; }
+            if (!/^\d{4,6}$/.test(password)) { showToast('PIN must be 4 to 6 numbers only.', 'error'); return; }
+            if (authUsers.find(u => u.email === email)) { showToast('Email is already registered.', 'error'); return; }
+
+            const newUser = { name, email, role, password, status: 'pending', attempts: 0, lockUntil: null };
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', email), newUser);
+            
+            showToast('Sign up successful! Please wait for Admin approval.', 'success');
+            toggleAuthMode('login');
+        });
+
         function toggleAuthMode(mode) {
             if (mode === 'signup') {
                 document.getElementById('loginForm').classList.add('hidden');
@@ -749,125 +715,20 @@
             }
         }
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-
-            const user = authUsers.find(u => u.email === email);
-            
-            if (!user) {
-                showToast('User not found. Please sign up.', 'error');
-                return;
-            }
-
-            if (user.lockUntil && Date.now() < user.lockUntil) {
-                const remainingMins = Math.ceil((user.lockUntil - Date.now()) / 60000);
-                showToast(`Account locked. Try again in ${remainingMins} minutes.`, 'error');
-                return;
-            }
-
-            if (user.password !== password) {
-                user.attempts = (user.attempts || 0) + 1;
-                if (user.attempts >= 3 && user.email !== 'admin@cdm.edu.ph') {
-                    user.lockUntil = Date.now() + 10 * 60 * 1000; // 10 minutes lock
-                    showToast('Account locked due to multiple failed attempts.', 'error');
-                } else {
-                    showToast('Incorrect PIN.', 'error');
-                }
-                localStorage.setItem('ece_users', JSON.stringify(authUsers));
-                return;
-            }
-
-            if (user.status === 'pending') {
-                showToast('Account pending approval from Admin.', 'error');
-                return;
-            }
-
-            // Successful login
-            user.attempts = 0;
-            localStorage.setItem('ece_users', JSON.stringify(authUsers));
-            currentUser = user;
-            localStorage.setItem('ece_current_user', JSON.stringify(currentUser));
-            
-            initAuth();
-            showToast('Signed in successfully!', 'success');
-        });
-
-        document.getElementById('signupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('signupName').value.trim();
-            const email = document.getElementById('signupEmail').value.trim();
-            const role = document.getElementById('signupRole').value;
-            const password = document.getElementById('signupPassword').value.trim();
-
-            // Validation
-            if (!/^[a-zA-Z0-9._%+-]+@cdm\.edu\.ph$/.test(email)) {
-                showToast('Email must be a valid @cdm.edu.ph address.', 'error');
-                return;
-            }
-            if (!/^\d{4,6}$/.test(password)) {
-                showToast('PIN must be 4 to 6 numbers only.', 'error');
-                return;
-            }
-            if (authUsers.find(u => u.email === email)) {
-                showToast('Email is already registered.', 'error');
-                return;
-            }
-
-            // Add new pending user
-            const newUser = {
-                name,
-                email,
-                role,
-                password,
-                status: 'pending',
-                attempts: 0,
-                lockUntil: null
-            };
-            authUsers.push(newUser);
-            localStorage.setItem('ece_users', JSON.stringify(authUsers));
-            
-            showToast('Sign up successful! Please wait for Admin approval.', 'success');
-            toggleAuthMode('login');
-            
-            // Re-render user table if another admin window is open
-            if (currentUser && (currentUser.role === 'Admin' || currentUser.role === 'admin')) {
-                updatePendingBadges();
-            }
-        });
-
-        function updatePendingBadges() {
-            const pendingCount = authUsers.filter(u => u.status === 'pending').length;
-            const sidebarBadge = document.getElementById('sidebarPendingBadge');
-            const mobileBadge = document.getElementById('mobilePendingBadge');
-            const desktopBadge = document.getElementById('desktopPendingBadge');
-
-            if (sidebarBadge) {
-                sidebarBadge.textContent = pendingCount;
-                sidebarBadge.classList.toggle('hidden', pendingCount === 0);
-            }
-            if (mobileBadge) {
-                mobileBadge.textContent = pendingCount;
-                mobileBadge.classList.toggle('hidden', pendingCount === 0);
-            }
-            if (desktopBadge) {
-                desktopBadge.textContent = pendingCount;
-                desktopBadge.classList.toggle('hidden', pendingCount === 0);
-            }
-        }
-
         function initAuth() {
             const adminNav = document.getElementById('navUserManagement');
             const mobileNotifBtn = document.getElementById('mobileNotifBtn');
             const desktopNotifBtn = document.getElementById('desktopNotifBtn');
+            const addItemBtn = document.getElementById('addItemBtn');
+            const manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
+            const sessionTracker = document.getElementById('sessionTracker');
+            const actionsHeader = document.getElementById('actionsHeader');
 
             if (currentUser) {
                 document.getElementById('authContainer').classList.add('hidden');
                 document.getElementById('userNameDisplay').textContent = currentUser.name;
                 document.getElementById('userRoleDisplay').textContent = currentUser.role;
                 
-                // Set Profile Avatar
                 const avatarEl = document.getElementById('userAvatar');
                 if (currentUser.avatar) {
                     avatarEl.style.backgroundImage = `url(${currentUser.avatar})`;
@@ -877,294 +738,71 @@
                     avatarEl.textContent = currentUser.name.charAt(0).toUpperCase();
                 }
                 
-                // Show Admin Badges/Menus if user is an admin
-                if (currentUser.role === 'Admin' || currentUser.role === 'admin') {
-                    adminNav.classList.remove('hidden');
-                    adminNav.classList.add('flex');
-                    mobileNotifBtn.classList.remove('hidden');
-                    desktopNotifBtn.classList.remove('hidden');
+                // Admin specific features
+                if (currentUser.role.toLowerCase() === 'admin') {
+                    adminNav.classList.remove('hidden'); adminNav.classList.add('flex');
+                    mobileNotifBtn.classList.remove('hidden'); desktopNotifBtn.classList.remove('hidden');
                     updatePendingBadges();
                 } else {
-                    adminNav.classList.add('hidden');
-                    adminNav.classList.remove('flex');
-                    mobileNotifBtn.classList.add('hidden');
-                    desktopNotifBtn.classList.add('hidden');
+                    adminNav.classList.add('hidden'); adminNav.classList.remove('flex');
+                    mobileNotifBtn.classList.add('hidden'); desktopNotifBtn.classList.add('hidden');
                 }
 
-                // Guest UI Restrictions
+                // Guest restrictions
                 if (currentUser.role.toLowerCase() === 'guest') {
-                    document.getElementById('addItemBtn').classList.add('hidden');
-                    document.getElementById('manageCategoriesBtn').classList.add('hidden');
-                    document.getElementById('sessionTracker').classList.add('hidden');
+                    if (addItemBtn) addItemBtn.classList.add('hidden');
+                    if (manageCategoriesBtn) manageCategoriesBtn.classList.add('hidden');
+                    if (sessionTracker) sessionTracker.classList.add('hidden');
+                    if (actionsHeader) actionsHeader.classList.add('hidden');
                 } else {
-                    document.getElementById('addItemBtn').classList.remove('hidden');
-                    document.getElementById('manageCategoriesBtn').classList.remove('hidden');
-                    document.getElementById('sessionTracker').classList.remove('hidden');
+                    if (addItemBtn) addItemBtn.classList.remove('hidden');
+                    if (manageCategoriesBtn) manageCategoriesBtn.classList.remove('hidden');
+                    if (sessionTracker) sessionTracker.classList.remove('hidden');
+                    if (actionsHeader) actionsHeader.classList.remove('hidden');
                 }
-                
-                // Re-render table to update action columns based on role
                 renderTable();
             } else {
                 document.getElementById('authContainer').classList.remove('hidden');
-                if (adminNav) {
-                    adminNav.classList.add('hidden');
-                    adminNav.classList.remove('flex');
-                    mobileNotifBtn.classList.add('hidden');
-                    desktopNotifBtn.classList.add('hidden');
-                }
             }
         }
 
-        // Cross-tab real-time sync for Data & Approvals
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'ece_users') {
-                authUsers = JSON.parse(e.newValue);
-                if (currentUser && (currentUser.role === 'Admin' || currentUser.role === 'admin')) {
-                    updatePendingBadges();
-                    if (!document.getElementById('userModal').classList.contains('hidden')) {
-                        renderUserTable(); // Auto refresh table if modal is open
-                    }
-                }
-            }
-            if (e.key === 'ece_inventory') {
-                inventory = JSON.parse(e.newValue) || [];
-                renderSidebarCategories();
-                renderTable();
-                updateStats();
-            }
-            if (e.key === 'ece_categories') {
-                categories = JSON.parse(e.newValue) || defaultCategories;
-                renderSidebarCategories();
-                populateCategoryDropdown();
-                if (!document.getElementById('categoryModal').classList.contains('hidden')) {
-                    renderCategoryManager();
-                }
-            }
-            if (e.key === 'ece_activity') {
-                activityLog = JSON.parse(e.newValue) || [];
-                renderActivityLog();
-            }
-        });
+        function updatePendingBadges() {
+            const pendingCount = authUsers.filter(u => u.status === 'pending').length;
+            const sidebarBadge = document.getElementById('sidebarPendingBadge');
+            const mobileBadge = document.getElementById('mobilePendingBadge');
+            const desktopBadge = document.getElementById('desktopPendingBadge');
 
-        // Handle Sign Out
+            if (sidebarBadge) { sidebarBadge.textContent = pendingCount; sidebarBadge.classList.toggle('hidden', pendingCount === 0); }
+            if (mobileBadge) { mobileBadge.textContent = pendingCount; mobileBadge.classList.toggle('hidden', pendingCount === 0); }
+            if (desktopBadge) { desktopBadge.textContent = pendingCount; desktopBadge.classList.toggle('hidden', pendingCount === 0); }
+        }
+
         function handleLogout() {
-            if (isSessionActive) {
-                showToast('Please end your active inventory session before signing out.', 'error');
-                return;
-            }
+            if (isSessionActive) { showToast('Please end your active inventory session before signing out.', 'error'); return; }
             currentUser = null;
             localStorage.removeItem('ece_current_user');
-            initAuth(); // Shows the auth screen
+            initAuth();
             showToast('Signed out successfully.', 'info');
         }
 
-        // --- END AUTHENTICATION LOGIC ---
-
-        // --- ADMIN USER MANAGEMENT LOGIC ---
-        function openUserManagement() {
-            renderUserTable();
-            document.getElementById('userModal').classList.remove('hidden');
-        }
-
-        function closeUserManagement() {
-            document.getElementById('userModal').classList.add('hidden');
-        }
-
-        function renderUserTable() {
-            const tbody = document.getElementById('userTableBody');
-            tbody.innerHTML = '';
-            
-            authUsers.forEach(user => {
-                if (user.role === 'admin') return; // Hide admin from list
-                
-                let statusBadge = '';
-                if (user.lockUntil && Date.now() < user.lockUntil) {
-                    statusBadge = '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-900 text-red-300">Locked Out</span>';
-                } else if (user.status === 'pending') {
-                    statusBadge = '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-amber-900 text-amber-300">Pending</span>';
-                } else {
-                    statusBadge = '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-emerald-900 text-emerald-300">Approved</span>';
-                }
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="px-4 py-3 text-sm text-white font-medium">
-                        <div class="flex flex-col">
-                            <span>${user.name}</span>
-                            <select onchange="changeUserRole('${user.email}', this.value)" class="mt-1 bg-ece-dark text-xs border border-slate-600 rounded px-1 py-0.5 text-slate-300 focus:outline-none focus:border-ece-primary w-fit">
-                                <option value="Student Assistant" ${user.role === 'Student Assistant' ? 'selected' : ''}>Student Assistant</option>
-                                <option value="Guest" ${user.role === 'Guest' ? 'selected' : ''}>Guest</option>
-                                <option value="Admin" ${user.role === 'Admin' || user.role === 'admin' ? 'selected' : ''}>Admin</option>
-                            </select>
-                        </div>
-                    </td>
-                    <td class="px-4 py-3 text-sm text-slate-300">${user.email}</td>
-                    <td class="px-4 py-3 text-center">${statusBadge}</td>
-                    <td class="px-4 py-3 text-right space-x-3">
-                        ${user.status === 'pending' ? `<button onclick="updateUserStatus('${user.email}', 'approved')" class="text-emerald-400 hover:text-emerald-300 transition-colors" title="Approve"><i class="fa-solid fa-check"></i></button>` : ''}
-                        ${(user.lockUntil && Date.now() < user.lockUntil) ? `<button onclick="unlockUser('${user.email}')" class="text-amber-400 hover:text-amber-300 transition-colors" title="Unlock Early"><i class="fa-solid fa-unlock"></i></button>` : ''}
-                        <button onclick="deleteUser('${user.email}')" class="text-red-400 hover:text-red-300 transition-colors" title="Delete User"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function changeUserRole(email, newRole) {
-            const user = authUsers.find(u => u.email === email);
-            if (user) {
-                user.role = newRole;
-                localStorage.setItem('ece_users', JSON.stringify(authUsers));
-                showToast(`User role updated to ${newRole}`, 'success');
-            }
-        }
-
-        function updateUserStatus(email, status) {
-            const user = authUsers.find(u => u.email === email);
-            if (user) {
-                user.status = status;
-                localStorage.setItem('ece_users', JSON.stringify(authUsers));
-                renderUserTable();
-                updatePendingBadges(); // INSTANT UI UPDATE
-                showToast(`User has been approved successfully.`, 'success');
-            }
-        }
-
-        function unlockUser(email) {
-            const user = authUsers.find(u => u.email === email);
-            if (user) {
-                user.attempts = 0;
-                user.lockUntil = null;
-                localStorage.setItem('ece_users', JSON.stringify(authUsers));
-                renderUserTable();
-                showToast('User account unlocked.', 'success');
-            }
-        }
-
-        function deleteUser(email) {
-            if(confirm('Are you sure you want to permanently delete this user?')) {
-                authUsers = authUsers.filter(u => u.email !== email);
-                localStorage.setItem('ece_users', JSON.stringify(authUsers));
-                renderUserTable();
-                updatePendingBadges(); // INSTANT UI UPDATE
-                showToast('User deleted.', 'info');
-            }
-        }
-        // --- END ADMIN USER MANAGEMENT LOGIC ---
-
-        // --- PROFILE EDITING LOGIC ---
-        function openProfileModal() {
-            document.getElementById('profileName').value = currentUser.name;
-            document.getElementById('profileRole').value = currentUser.role || 'Guest';
-            
-            // Only allow Admins to change their own role to something else if they want, 
-            // but usually we can lock role editing for non-admins to prevent exploiting.
-            if(currentUser.email !== 'admin@cdm.edu.ph') {
-                document.getElementById('profileRole').disabled = true;
-                document.getElementById('profileRole').classList.add('opacity-50', 'cursor-not-allowed');
-            }
-
-            const preview = document.getElementById('profilePreview');
-            if (currentUser.avatar) {
-                preview.style.backgroundImage = `url(${currentUser.avatar})`;
-                preview.textContent = '';
-            } else {
-                preview.style.backgroundImage = 'none';
-                preview.textContent = currentUser.name.charAt(0).toUpperCase();
-            }
-            
-            pendingProfilePicBase64 = currentUser.avatar;
-            document.getElementById('profileModal').classList.remove('hidden');
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profileModal').classList.add('hidden');
-            pendingProfilePicBase64 = null;
-        }
-
-        function previewProfilePic(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Small canvas resize to prevent LocalStorage quota overload
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const MAX_SIZE = 150;
-                        let width = img.width;
-                        let height = img.height;
-                        if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
-                        else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
-                        canvas.width = width; canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        pendingProfilePicBase64 = canvas.toDataURL('image/jpeg', 0.8);
-                        const preview = document.getElementById('profilePreview');
-                        preview.style.backgroundImage = `url(${pendingProfilePicBase64})`;
-                        preview.textContent = '';
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function saveProfile() {
-            const newName = document.getElementById('profileName').value.trim();
-            const newRole = document.getElementById('profileRole').value;
-
-            if(!newName) { showToast('Name is required', 'error'); return; }
-
-            // Update Current User
-            currentUser.name = newName;
-            currentUser.role = newRole;
-            currentUser.avatar = pendingProfilePicBase64;
-            localStorage.setItem('ece_current_user', JSON.stringify(currentUser));
-
-            // Update Auth Users DB
-            const dbUserIndex = authUsers.findIndex(u => u.email === currentUser.email);
-            if (dbUserIndex > -1) {
-                authUsers[dbUserIndex].name = newName;
-                authUsers[dbUserIndex].role = newRole;
-                authUsers[dbUserIndex].avatar = pendingProfilePicBase64;
-                localStorage.setItem('ece_users', JSON.stringify(authUsers));
-            }
-
-            initAuth(); // Refresh UI Profile Section
-            closeProfileModal();
-            showToast('Profile updated successfully!', 'success');
-        }
-        // --- END PROFILE EDITING LOGIC ---
-
-        function generateId() {
-            return 'EQ-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-        }
-
-        // --- ACTIVITY LOG LOGIC ---
-        function logActivity(action, itemName, type) {
+        async function logActivity(action, itemName, type) {
             if (!currentUser) return;
             const entry = {
                 id: Date.now().toString() + Math.random(),
                 user: currentUser.name,
                 action: action,
                 item: itemName,
-                type: type, // 'add', 'edit', 'delete', 'qty'
+                type: type, 
                 time: new Date().toISOString()
             };
             
-            activityLog.unshift(entry);
-            if (activityLog.length > 50) activityLog.pop(); // Keep only the last 50 events to save space
-            
-            localStorage.setItem('ece_activity', JSON.stringify(activityLog));
-            renderActivityLog();
+            const newLogArray = [entry, ...activityLog].slice(0, 50);
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'activity'), { log: newLogArray });
         }
 
         function renderActivityLog() {
             const feed = document.getElementById('activityFeed');
             if (!feed) return;
-            
             feed.innerHTML = '';
             
             if (activityLog.length === 0) {
@@ -1173,401 +811,27 @@
             }
             
             activityLog.forEach(log => {
-                let icon = 'fa-pen';
-                let iconBg = 'bg-blue-500 bg-opacity-20 text-blue-400';
-                
+                let icon = 'fa-pen'; let iconBg = 'bg-blue-500 bg-opacity-20 text-blue-400';
                 if (log.type === 'add') { icon = 'fa-plus'; iconBg = 'bg-emerald-500 bg-opacity-20 text-emerald-400'; }
                 if (log.type === 'delete') { icon = 'fa-trash'; iconBg = 'bg-red-500 bg-opacity-20 text-red-400'; }
                 if (log.type === 'qty') { icon = 'fa-boxes-stacked'; iconBg = 'bg-ece-primary bg-opacity-20 text-ece-primary'; }
                 
                 const timeStr = new Date(log.time).toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
                 feed.innerHTML += `
                     <div class="flex items-start gap-3 animate-[fadeIn_0.5s_ease-out]">
-                        <div class="h-6 w-6 rounded-full flex items-center justify-center shrink-0 ${iconBg} mt-0.5">
-                            <i class="fa-solid ${icon} text-[10px]"></i>
-                        </div>
+                        <div class="h-6 w-6 rounded-full flex items-center justify-center shrink-0 ${iconBg} mt-0.5"><i class="fa-solid ${icon} text-[10px]"></i></div>
                         <div class="flex-1">
-                            <p class="text-slate-300 text-sm">
-                                <span class="font-bold text-white">${log.user}</span> 
-                                <span class="text-slate-400">${log.action}</span> 
-                                <span class="font-semibold text-ece-primary">${log.item}</span>
-                            </p>
+                            <p class="text-slate-300 text-sm"><span class="font-bold text-white">${log.user}</span> <span class="text-slate-400">${log.action}</span> <span class="font-semibold text-ece-primary">${log.item}</span></p>
                         </div>
                         <span class="text-[10px] text-slate-500 whitespace-nowrap bg-slate-800 px-2 py-0.5 rounded">${timeStr}</span>
-                    </div>
-                `;
-            });
-        }
-        // --- END ACTIVITY LOG LOGIC ---
-
-        function saveData() {
-            localStorage.setItem('ece_inventory', JSON.stringify(inventory));
-            localStorage.setItem('ece_sessions', JSON.stringify(sessions));
-            updateStats();
-        }
-
-        function renderSidebarCategories() {
-            const nav = document.getElementById('categoryFilterNav');
-            nav.innerHTML = '';
-            
-            // Always add 'All' filter first
-            const allCount = inventory.length;
-            const isAllActive = currentFilter === 'All';
-            const allA = document.createElement('a');
-            allA.href = '#';
-            allA.onclick = (e) => { e.preventDefault(); setFilter('All'); };
-            allA.className = `flex items-center justify-between px-2 py-2 text-sm font-medium rounded-lg group transition-colors border-l-4 ${isAllActive ? 'bg-slate-800 text-white border-ece-primary' : 'text-slate-400 hover:bg-slate-800 hover:text-white border-transparent'}`;
-            allA.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fa-solid fa-list-ul w-6 text-center mr-2 ${isAllActive ? 'text-ece-primary' : 'group-hover:text-ece-primary'}"></i>
-                    All Equipment
-                </div>
-                <span class="bg-slate-700 text-xs py-0.5 px-2 rounded-full text-slate-300 group-hover:bg-slate-600">${allCount}</span>
-            `;
-            nav.appendChild(allA);
-
-            categories.forEach(cat => {
-                const count = inventory.filter(i => i.category === cat.id).length;
-                const isActive = currentFilter === cat.id;
-                
-                const a = document.createElement('a');
-                a.href = '#';
-                a.onclick = (e) => { e.preventDefault(); setFilter(cat.id); };
-                a.className = `flex items-center justify-between px-2 py-2 text-sm font-medium rounded-lg group transition-colors border-l-4 ${isActive ? 'bg-slate-800 text-white border-ece-primary' : 'text-slate-400 hover:bg-slate-800 hover:text-white border-transparent'}`;
-                
-                a.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fa-solid ${cat.icon} w-6 text-center mr-2 ${isActive ? 'text-ece-primary' : 'group-hover:text-ece-primary'}"></i>
-                        ${cat.name}
-                    </div>
-                    <span class="bg-slate-700 text-xs py-0.5 px-2 rounded-full text-slate-300 group-hover:bg-slate-600">${count}</span>
-                `;
-                nav.appendChild(a);
+                    </div>`;
             });
         }
 
-        function populateCategoryDropdown() {
-            const select = document.getElementById('itemCategory');
-            if(!select) return;
-            // Save current selection if any
-            const currentVal = select.value;
-            select.innerHTML = '';
-            categories.forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat.id;
-                option.textContent = cat.name;
-                select.appendChild(option);
-            });
-            if(currentVal && categories.find(c => c.id === currentVal)) {
-                select.value = currentVal;
-            }
-        }
-
-        function setFilter(categoryId) {
-            currentFilter = categoryId;
-            renderSidebarCategories();
-            renderTable();
-            if(window.innerWidth < 768) toggleMobileMenu();
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
-        }
-
-        function formatTime(dateString) {
-            if (!dateString) return 'N/A';
-            const date = new Date(dateString);
-            return date.toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function renderTable() {
-            const tbody = document.getElementById('inventoryTableBody');
-            const emptyState = document.getElementById('emptyState');
-            const searchTag = document.getElementById('searchInput').value.toLowerCase();
-            
-            tbody.innerHTML = '';
-            
-            // Filter
-            let filteredData = inventory.filter(item => {
-                const matchCategory = currentFilter === 'All' || item.category === currentFilter;
-                const matchSearch = item.name.toLowerCase().includes(searchTag) || 
-                                    item.id.toLowerCase().includes(searchTag) ||
-                                    (item.location && item.location.toLowerCase().includes(searchTag));
-                return matchCategory && matchSearch;
-            });
-
-            // Sort
-            filteredData.sort((a, b) => {
-                let valA = a[currentSort.column];
-                let valB = b[currentSort.column];
-                
-                if (typeof valA === 'string') valA = valA.toLowerCase();
-                if (typeof valB === 'string') valB = valB.toLowerCase();
-                
-                if (valA < valB) return currentSort.direction === 'asc' ? -1 : 1;
-                if (valA > valB) return currentSort.direction === 'asc' ? 1 : -1;
-                return 0;
-            });
-
-            if (filteredData.length === 0) {
-                tbody.parentElement.classList.add('hidden');
-                emptyState.classList.remove('hidden');
-            } else {
-                tbody.parentElement.classList.remove('hidden');
-                emptyState.classList.add('hidden');
-
-                const isGuest = currentUser && currentUser.role.toLowerCase() === 'guest';
-                const actionsHeader = document.getElementById('actionsHeader');
-                if (actionsHeader) {
-                    if (isGuest) actionsHeader.classList.add('hidden');
-                    else actionsHeader.classList.remove('hidden');
-                }
-
-                filteredData.forEach(item => {
-                    const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-slate-800 hover:bg-opacity-50 transition-colors group';
-                    
-                    // Logic for difference indicator
-                    let diffHtml = '';
-                    let diffClass = 'text-slate-400';
-                    let qtyClass = 'text-white';
-                    
-                    if (isSessionActive) {
-                        const startQty = previousQuantities[item.id] !== undefined ? previousQuantities[item.id] : item.lastCheckQty;
-                        const diff = item.quantity - startQty;
-                        if (diff > 0) {
-                            diffHtml = `<span class="text-emerald-400 text-xs ml-2 font-bold">(+${diff})</span>`;
-                            diffClass = 'text-emerald-400';
-                            qtyClass = 'text-emerald-400 font-bold';
-                        } else if (diff < 0) {
-                            diffHtml = `<span class="text-red-400 text-xs ml-2 font-bold">(${diff})</span>`;
-                            diffClass = 'text-red-400';
-                            qtyClass = 'text-red-400 font-bold';
-                        } else {
-                            diffHtml = `<span class="text-slate-500 text-xs ml-2">(=)</span>`;
-                        }
-                    } else {
-                        // General last check diff
-                         const diff = item.quantity - (item.lastCheckQty || item.quantity);
-                         if (diff > 0) diffHtml = `<span class="text-emerald-400 text-xs ml-2">(+${diff})</span>`;
-                         else if (diff < 0) diffHtml = `<span class="text-red-400 text-xs ml-2">(${diff})</span>`;
-                    }
-
-                    const lowStockWarning = item.quantity < 5 ? '<i class="fa-solid fa-triangle-exclamation text-amber-500 ml-2" title="Low Stock"></i>' : '';
-
-                    const brandBadge = item.brand ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700 text-slate-300 mt-1 mr-1 border border-slate-600"><i class="fa-solid fa-tag mr-1 opacity-70"></i>${item.brand}</span>` : '';
-                    const damageBadge = item.damage ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-900 bg-opacity-40 text-red-400 mt-1 mr-1 border border-red-800"><i class="fa-solid fa-crack mr-1 opacity-70"></i>${item.damage}</span>` : '';
-                    const missingBadge = item.missing ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-900 bg-opacity-40 text-amber-400 mt-1 border border-amber-800"><i class="fa-solid fa-circle-minus mr-1 opacity-70"></i>${item.missing}</span>` : '';
-
-                    tr.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-300 font-mono">${item.id}</td>
-                        <td class="px-6 py-4 text-sm font-medium text-white group-hover:text-ece-primary transition-colors">
-                            <div class="flex items-center">
-                                ${item.name} ${lowStockWarning}
-                            </div>
-                            <div class="flex flex-wrap items-center mt-0.5">
-                                ${brandBadge} ${damageBadge} ${missingBadge}
-                            </div>
-                            <div class="text-xs text-slate-500 font-normal sm:hidden truncate max-w-[150px] mt-1">${item.category}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400 hidden sm:table-cell">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-                                ${item.category}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-right">
-                            <span class="${qtyClass} text-lg" id="qty-val-${item.id}">${item.quantity}</span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-slate-400 hidden md:table-cell">
-                            <div class="flex flex-col items-end">
-                                <span class="${diffClass}">${formatDate(item.lastUpdated)}</span>
-                                <div>${diffHtml}</div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400 hidden lg:table-cell">
-                            ${item.location || '-'}
-                        </td>
-                        ${!isGuest ? `
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium no-print">
-                            <div class="flex items-center justify-end space-x-2">
-                                ${isSessionActive ? `
-                                <div class="flex items-center bg-slate-800 rounded-lg mr-2 border border-slate-700">
-                                    <button onclick="quickAdjustQty('${item.id}', -1)" class="px-2 py-1 text-slate-400 hover:text-red-400 hover:bg-slate-700 rounded-l-lg transition-colors"><i class="fa-solid fa-minus"></i></button>
-                                    <button onclick="quickAdjustQty('${item.id}', 1)" class="px-2 py-1 text-slate-400 hover:text-emerald-400 hover:bg-slate-700 rounded-r-lg border-l border-slate-700 transition-colors"><i class="fa-solid fa-plus"></i></button>
-                                </div>
-                                ` : ''}
-                                <button onclick="openModal('edit', '${item.id}')" class="text-ece-primary hover:text-white transition-colors p-1" title="Edit">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button onclick="deleteItem('${item.id}')" class="text-slate-500 hover:text-red-400 transition-colors p-1" title="Delete">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                        ` : ''}
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }
-        }
-
-        function sortTable(column) {
-            if (currentSort.column === column) {
-                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                currentSort.column = column;
-                currentSort.direction = 'asc';
-            }
-            renderTable();
-        }
-
-        function updateStats() {
-            const totalItems = inventory.length;
-            const lowStock = inventory.filter(i => i.quantity < 5).length;
-            const totalValue = inventory.reduce((sum, item) => sum + (parseFloat(item.value) * item.quantity || 0), 0);
-            
-            // UI Updates
-            const btn = document.getElementById('sessionBtn');
-            const indicator = document.getElementById('sessionStatusIndicator');
-            
-            btn.textContent = 'End Session';
-            btn.classList.remove('bg-ece-surface', 'border-ece-primary');
-            btn.classList.add('bg-red-900', 'border-red-500', 'text-red-100');
-            
-            indicator.classList.remove('bg-slate-500', 'shadow-[0_0_5px_rgba(100,116,139,0.8)]');
-            indicator.classList.add('bg-red-500', 'shadow-[0_0_8px_rgba(239,68,68,1)]', 'animate-pulse');
-            
-            document.getElementById('sessionTracker').classList.add('border-red-900', 'bg-red-950', 'bg-opacity-30');
-
-            updateSessionTimer();
-            sessionTimerInterval = setInterval(updateSessionTimer, 1000);
-            
-            renderTable(); // Re-render to show quick edit buttons
-            showToast('Inventory Session Started', 'info');
-        }
-
-        function endSession() {
-            isSessionActive = false;
-            const sessionEndTime = new Date();
-            clearInterval(sessionTimerInterval);
-            
-            // Record session
-            const sessionDuration = sessionEndTime - sessionStartTime;
-            
-            // Update lastCheckQty to current qty for all items since session ended
-            inventory.forEach(item => {
-                item.lastCheckQty = item.quantity;
-            });
-
-            const newSession = {
-                id: 'SES-' + Date.now().toString().slice(-6),
-                startTime: sessionStartTime.toISOString(),
-                endTime: sessionEndTime.toISOString(),
-                duration: sessionDuration,
-                changesMade: changesInCurrentSession
-            };
-            
-            sessions.unshift(newSession); // Add to beginning
-            if(sessions.length > 50) sessions.pop(); // Keep last 50
-            
-            saveData();
-
-            // UI Updates
-            const btn = document.getElementById('sessionBtn');
-            const indicator = document.getElementById('sessionStatusIndicator');
-            
-            btn.textContent = 'Start Session';
-            btn.classList.add('bg-ece-surface', 'border-ece-primary');
-            btn.classList.remove('bg-red-900', 'border-red-500', 'text-red-100');
-            
-            indicator.classList.add('bg-slate-500', 'shadow-[0_0_5px_rgba(100,116,139,0.8)]');
-            indicator.classList.remove('bg-red-500', 'shadow-[0_0_8px_rgba(239,68,68,1)]', 'animate-pulse');
-            
-            document.getElementById('sessionTracker').classList.remove('border-red-900', 'bg-red-950', 'bg-opacity-30');
-            document.getElementById('sessionTimer').textContent = '00:00:00';
-
-            renderTable(); // Remove quick edit buttons and update diffs
-            showToast(`Session Ended. ${changesInCurrentSession} changes saved.`, 'success');
-        }
-
-        function updateSessionTimer() {
-            if (!sessionStartTime) return;
-            const now = new Date();
-            const diff = now - sessionStartTime;
-            
-            const hours = Math.floor(diff / 3600000).toString().padStart(2, '0');
-            const minutes = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
-            const seconds = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
-            
-            document.getElementById('sessionTimer').textContent = `${hours}:${minutes}:${seconds}`;
-        }
-
-        function showSessionHistory() {
-            const modal = document.getElementById('historyModal');
-            const list = document.getElementById('historyList');
-            list.innerHTML = '';
-            
-            if (sessions.length === 0) {
-                list.innerHTML = '<li class="py-4 text-center text-slate-400">No session history available.</li>';
-            } else {
-                sessions.forEach(ses => {
-                    const durationMins = Math.floor(ses.duration / 60000);
-                    const durationStr = durationMins > 0 ? `${durationMins}m` : '<1m';
-                    
-                    const li = document.createElement('li');
-                    li.className = 'py-3 flex justify-between items-center';
-                    li.innerHTML = `
-                        <div>
-                            <p class="text-sm font-medium text-white">${formatDate(ses.startTime)}</p>
-                            <p class="text-xs text-slate-400">${formatTime(ses.startTime)} - ${formatTime(ses.endTime)} (${durationStr})</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ece-surface bg-opacity-50 text-ece-primary border border-ece-primary border-opacity-30">
-                                ${ses.changesMade} changes
-                            </span>
-                            <p class="text-xs text-slate-500 mt-1 font-mono">${ses.id}</p>
-                        </div>
-                    `;
-                    list.appendChild(li);
-                });
-            }
-            
-            modal.classList.remove('hidden');
-        }
-
-        function closeHistoryModal() {
-            document.getElementById('historyModal').classList.add('hidden');
-        }
-
-        function toggleSession() {
-            if (currentUser && currentUser.role.toLowerCase() === 'guest') {
-                showToast('Guests cannot manage inventory sessions.', 'error');
-                return;
-            }
-            if (isSessionActive) {
-                endSession();
-            } else {
-                isSessionActive = true;
-                sessionStartTime = new Date();
-                changesInCurrentSession = 0;
-                previousQuantities = {};
-                
-                inventory.forEach(item => {
-                    previousQuantities[item.id] = item.quantity;
-                });
-                
-                updateStats();
-            }
-        }
+        function generateId() { return 'EQ-' + Math.random().toString(36).substr(2, 6).toUpperCase(); }
 
         function openModal(mode, id = null) {
-            if (currentUser && currentUser.role.toLowerCase() === 'guest') {
-                showToast('Guests cannot edit or add equipment.', 'error');
-                return;
-            }
+            if (currentUser && currentUser.role.toLowerCase() === 'guest') { showToast('Guests cannot edit or add equipment.', 'error'); return; }
             const modal = document.getElementById('itemModal');
             const title = document.getElementById('modalTitle');
             const icon = document.getElementById('modalIcon');
@@ -1575,10 +839,10 @@
             
             form.reset();
             editingId = null;
+            populateCategoryDropdown();
 
             if (mode === 'edit') {
-                title.textContent = 'Edit Equipment';
-                icon.className = 'fa-solid fa-pen-to-square';
+                title.textContent = 'Edit Equipment'; icon.className = 'fa-solid fa-pen-to-square';
                 editingId = id;
                 const item = inventory.find(i => i.id === id);
                 if (item) {
@@ -1594,19 +858,14 @@
                     document.getElementById('itemNotes').value = item.notes || '';
                 }
             } else {
-                title.textContent = 'Add New Equipment';
-                icon.className = 'fa-solid fa-plus';
+                title.textContent = 'Add New Equipment'; icon.className = 'fa-solid fa-plus';
             }
-            
             modal.classList.remove('hidden');
         }
 
-        function closeModal() {
-            document.getElementById('itemModal').classList.add('hidden');
-            editingId = null;
-        }
+        function closeModal() { document.getElementById('itemModal').classList.add('hidden'); editingId = null; }
 
-        function saveItem() {
+        async function saveItem() {
             const name = document.getElementById('itemName').value.trim();
             const brand = document.getElementById('itemBrand').value.trim();
             const category = document.getElementById('itemCategory').value;
@@ -1617,70 +876,46 @@
             const missing = document.getElementById('itemMissing').value.trim();
             const notes = document.getElementById('itemNotes').value.trim();
 
-            if (!name || isNaN(quantity)) {
-                showToast('Please fill in required fields correctly.', 'error');
-                return;
-            }
+            if (!name || isNaN(quantity)) { showToast('Please fill in required fields correctly.', 'error'); return; }
 
             const now = new Date().toISOString();
+            let itemObj = {};
 
             if (editingId) {
-                const index = inventory.findIndex(i => i.id === editingId);
-                if (index > -1) {
-                    const oldQty = inventory[index].quantity;
-                    if (oldQty !== quantity && isSessionActive) {
-                        changesInCurrentSession++;
-                    }
+                const item = inventory.find(i => i.id === editingId);
+                if (item) {
+                    const oldQty = item.quantity;
+                    if (oldQty !== quantity && isSessionActive) changesInCurrentSession++;
                     
-                    inventory[index] = {
-                        ...inventory[index],
-                        name, brand, category, quantity, location, value, damage, missing, notes,
-                        lastUpdated: now
-                    };
+                    itemObj = { ...item, name, brand, category, quantity, location, value, damage, missing, notes, lastUpdated: now };
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'inventory', itemObj.id), itemObj);
                     logActivity('updated the details of', name, 'edit');
-                    showToast('Item updated successfully', 'success');
+                    showToast('Item updated on Cloud', 'success');
                 }
             } else {
-                const newItem = {
-                    id: generateId(),
-                    name, brand, category, quantity, lastCheckQty: quantity, location, value, damage, missing, notes,
-                    lastUpdated: now
-                };
-                inventory.push(newItem);
-                if (isSessionActive) {
-                    previousQuantities[newItem.id] = 0; // Track newly added items in session
-                    changesInCurrentSession++;
-                }
+                itemObj = { id: generateId(), name, brand, category, quantity, lastCheckQty: quantity, location, value, damage, missing, notes, lastUpdated: now };
+                if (isSessionActive) { previousQuantities[itemObj.id] = 0; changesInCurrentSession++; }
+                
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'inventory', itemObj.id), itemObj);
                 logActivity('added a new item:', name, 'add');
-                showToast('Item added successfully', 'success');
+                showToast('Item saved to Cloud', 'success');
             }
-
-            saveData();
-            renderSidebarCategories();
-            renderTable();
             closeModal();
         }
 
-        function deleteItem(id) {
-            if (currentUser && currentUser.role.toLowerCase() === 'guest') {
-                showToast('Guests cannot delete equipment.', 'error');
-                return;
-            }
-            const index = inventory.findIndex(i => i.id === id);
-            if (index > -1) {
-                const itemName = inventory[index].name;
-                inventory.splice(index, 1);
-                
-                logActivity('deleted the item:', itemName, 'delete');
-                
-                saveData();
-                renderSidebarCategories();
-                renderTable();
-                showToast('Item deleted successfully', 'info');
+        async function deleteItem(id) {
+            if (currentUser && currentUser.role.toLowerCase() === 'guest') { showToast('Guests cannot delete equipment.', 'error'); return; }
+            if (confirm('Are you sure you want to permanently delete this item from the cloud?')) {
+                const item = inventory.find(i => i.id === id);
+                if (item) {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'inventory', id));
+                    logActivity('deleted the item:', item.name, 'delete');
+                    showToast('Item removed from Cloud', 'info');
+                }
             }
         }
 
-        function quickAdjustQty(id, change) {
+        async function quickAdjustQty(id, change) {
             if (currentUser && currentUser.role.toLowerCase() === 'guest') return;
             const item = inventory.find(i => i.id === id);
             if (item) {
@@ -1690,83 +925,261 @@
                     item.lastUpdated = new Date().toISOString();
                     changesInCurrentSession++;
                     
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'inventory', item.id), item);
                     const actionWord = change > 0 ? 'increased' : 'decreased';
                     logActivity(`${actionWord} the quantity of`, item.name, 'qty');
-                    
-                    saveData();
-                    renderTable();
-                    
-                    // Flash animation for visual feedback
-                    setTimeout(() => {
-                        const qtyEl = document.getElementById(`qty-val-${id}`);
-                        if(qtyEl) {
-                            qtyEl.classList.add(change > 0 ? 'quantity-change-up' : 'quantity-change-down');
-                            setTimeout(() => {
-                                qtyEl.classList.remove('quantity-change-up', 'quantity-change-down');
-                            }, 1000);
-                        }
-                    }, 50);
                 }
             }
         }
 
-        function printInventory() {
-            // Prepare print headers
-            const now = new Date();
-            document.getElementById('printDate').textContent = `Date Printed: ${formatDate(now.toISOString())} ${formatTime(now.toISOString())}`;
+        function renderSidebarCategories() {
+            const nav = document.getElementById('categoryFilterNav');
+            nav.innerHTML = '';
             
-            if (isSessionActive) {
-                document.getElementById('printSessionTime').textContent = `Active Session: ${document.getElementById('sessionTimer').textContent}`;
-            } else {
-                document.getElementById('printSessionTime').textContent = '';
-            }
+            const allCount = inventory.length;
+            const isAllActive = currentFilter === 'All';
+            nav.innerHTML += `
+                <a href="#" onclick="event.preventDefault(); setFilter('All')" class="flex items-center justify-between px-2 py-2 text-sm font-medium rounded-lg group transition-colors border-l-4 ${isAllActive ? 'bg-slate-800 text-white border-ece-primary' : 'text-slate-400 hover:bg-slate-800 hover:text-white border-transparent'}">
+                    <div class="flex items-center"><i class="fa-solid fa-list-ul w-6 text-center mr-2 ${isAllActive ? 'text-ece-primary' : 'group-hover:text-ece-primary'}"></i> All Equipment</div>
+                    <span class="bg-slate-700 text-xs py-0.5 px-2 rounded-full text-slate-300 group-hover:bg-slate-600">${allCount}</span>
+                </a>`;
 
-            // Temporarily show all items if filtered, or keep filter? Let's keep current filter but expand table visually
-            window.print();
+            categories.forEach(cat => {
+                const count = inventory.filter(i => i.category === cat.id).length;
+                const isActive = currentFilter === cat.id;
+                nav.innerHTML += `
+                    <a href="#" onclick="event.preventDefault(); setFilter('${cat.id}')" class="flex items-center justify-between px-2 py-2 text-sm font-medium rounded-lg group transition-colors border-l-4 ${isActive ? 'bg-slate-800 text-white border-ece-primary' : 'text-slate-400 hover:bg-slate-800 hover:text-white border-transparent'}">
+                        <div class="flex items-center"><i class="fa-solid ${cat.icon} w-6 text-center mr-2 ${isActive ? 'text-ece-primary' : 'group-hover:text-ece-primary'}"></i> ${cat.name}</div>
+                        <span class="bg-slate-700 text-xs py-0.5 px-2 rounded-full text-slate-300 group-hover:bg-slate-600">${count}</span>
+                    </a>`;
+            });
         }
 
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            const msgEl = document.getElementById('toastMessage');
-            const iconEl = document.getElementById('toastIcon');
-            
-            msgEl.textContent = message;
-            
-            toast.className = `fixed bottom-4 right-4 border-l-4 px-4 py-3 rounded shadow-lg transform transition-all duration-300 z-50 flex items-center bg-slate-800 text-white`;
-            
-            if (type === 'success') {
-                toast.classList.add('border-emerald-500');
-                iconEl.className = 'fa-solid fa-circle-check text-emerald-500 mr-3';
-            } else if (type === 'error') {
-                toast.classList.add('border-red-500');
-                iconEl.className = 'fa-solid fa-circle-xmark text-red-500 mr-3';
-            } else {
-                toast.classList.add('border-ece-primary');
-                iconEl.className = 'fa-solid fa-circle-info text-ece-primary mr-3';
-            }
-
-            // Show
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            // Hide after 3s
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+        function populateCategoryDropdown() {
+            const select = document.getElementById('itemCategory');
+            if(!select) return;
+            const currentVal = select.value;
+            select.innerHTML = '';
+            categories.forEach(cat => select.appendChild(new Option(cat.name, cat.id)));
+            if(currentVal && categories.find(c => c.id === currentVal)) select.value = currentVal;
         }
 
-        // --- CATEGORY MANAGEMENT LOGIC ---
+        function setFilter(categoryId) {
+            currentFilter = categoryId;
+            renderSidebarCategories();
+            renderTable();
+            if(window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('hidden');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        }
+
+        function formatDate(dateString) { return dateString ? new Date(dateString).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A'; }
+        function formatTime(dateString) { return dateString ? new Date(dateString).toLocaleTimeString('en-PH', { hour: '2-digit', minute: '2-digit' }) : 'N/A'; }
+
+        function sortTable(column) {
+            if (currentSort.column === column) currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            else { currentSort.column = column; currentSort.direction = 'asc'; }
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('inventoryTableBody');
+            const emptyState = document.getElementById('emptyState');
+            const searchTag = document.getElementById('searchInput').value.toLowerCase();
+            
+            tbody.innerHTML = '';
+            
+            let filteredData = inventory.filter(item => {
+                const matchCategory = currentFilter === 'All' || item.category === currentFilter;
+                const matchSearch = item.name.toLowerCase().includes(searchTag) || item.id.toLowerCase().includes(searchTag) || (item.location && item.location.toLowerCase().includes(searchTag));
+                return matchCategory && matchSearch;
+            });
+
+            filteredData.sort((a, b) => {
+                let valA = a[currentSort.column]; let valB = b[currentSort.column];
+                if (typeof valA === 'string') valA = valA.toLowerCase();
+                if (typeof valB === 'string') valB = valB.toLowerCase();
+                if (valA < valB) return currentSort.direction === 'asc' ? -1 : 1;
+                if (valA > valB) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            if (filteredData.length === 0) {
+                tbody.parentElement.classList.add('hidden'); emptyState.classList.remove('hidden');
+            } else {
+                tbody.parentElement.classList.remove('hidden'); emptyState.classList.add('hidden');
+
+                const isGuest = currentUser && currentUser.role.toLowerCase() === 'guest';
+                
+                filteredData.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-800 hover:bg-opacity-50 transition-colors group';
+                    
+                    let diffHtml = ''; let diffClass = 'text-slate-400'; let qtyClass = 'text-white';
+                    
+                    if (isSessionActive) {
+                        const startQty = previousQuantities[item.id] !== undefined ? previousQuantities[item.id] : item.lastCheckQty;
+                        const diff = item.quantity - startQty;
+                        if (diff > 0) { diffHtml = `<span class="text-emerald-400 text-xs ml-2 font-bold">(+${diff})</span>`; diffClass = 'text-emerald-400'; qtyClass = 'text-emerald-400 font-bold'; }
+                        else if (diff < 0) { diffHtml = `<span class="text-red-400 text-xs ml-2 font-bold">(${diff})</span>`; diffClass = 'text-red-400'; qtyClass = 'text-red-400 font-bold'; }
+                        else { diffHtml = `<span class="text-slate-500 text-xs ml-2">(=)</span>`; }
+                    } else {
+                         const diff = item.quantity - (item.lastCheckQty || item.quantity);
+                         if (diff > 0) diffHtml = `<span class="text-emerald-400 text-xs ml-2">(+${diff})</span>`;
+                         else if (diff < 0) diffHtml = `<span class="text-red-400 text-xs ml-2">(${diff})</span>`;
+                    }
+
+                    const lowStockWarning = item.quantity < 5 ? '<i class="fa-solid fa-triangle-exclamation text-amber-500 ml-2" title="Low Stock"></i>' : '';
+                    const brandBadge = item.brand ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700 text-slate-300 mt-1 mr-1 border border-slate-600"><i class="fa-solid fa-tag mr-1 opacity-70"></i>${item.brand}</span>` : '';
+                    const damageBadge = item.damage ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-900 bg-opacity-40 text-red-400 mt-1 mr-1 border border-red-800"><i class="fa-solid fa-triangle-exclamation mr-1 opacity-70"></i>${item.damage}</span>` : '';
+                    const missingBadge = item.missing ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-900 bg-opacity-40 text-amber-400 mt-1 border border-amber-800"><i class="fa-solid fa-circle-minus mr-1 opacity-70"></i>${item.missing}</span>` : '';
+
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-300 font-mono">${item.id}</td>
+                        <td class="px-6 py-4 text-sm font-medium text-white group-hover:text-ece-primary transition-colors">
+                            <div class="flex items-center">${item.name} ${lowStockWarning}</div>
+                            <div class="flex flex-wrap items-center mt-0.5">${brandBadge} ${damageBadge} ${missingBadge}</div>
+                            <div class="text-xs text-slate-500 font-normal sm:hidden truncate max-w-[150px] mt-1">${item.category}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400 hidden sm:table-cell">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">${item.category}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-right"><span class="${qtyClass} text-lg" id="qty-val-${item.id}">${item.quantity}</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-slate-400 hidden md:table-cell">
+                            <div class="flex flex-col items-end"><span class="${diffClass}">${formatDate(item.lastUpdated)}</span><div>${diffHtml}</div></div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400 hidden lg:table-cell">${item.location || '-'}</td>
+                        ${!isGuest ? `
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium no-print">
+                            <div class="flex items-center justify-end space-x-2">
+                                ${isSessionActive ? `
+                                <div class="flex items-center bg-slate-800 rounded-lg mr-2 border border-slate-700">
+                                    <button onclick="quickAdjustQty('${item.id}', -1)" class="px-2 py-1 text-slate-400 hover:text-red-400 hover:bg-slate-700 rounded-l-lg transition-colors"><i class="fa-solid fa-minus"></i></button>
+                                    <button onclick="quickAdjustQty('${item.id}', 1)" class="px-2 py-1 text-slate-400 hover:text-emerald-400 hover:bg-slate-700 rounded-r-lg border-l border-slate-700 transition-colors"><i class="fa-solid fa-plus"></i></button>
+                                </div>` : ''}
+                                <button onclick="openModal('edit', '${item.id}')" class="text-ece-primary hover:text-white p-1" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button onclick="deleteItem('${item.id}')" class="text-slate-500 hover:text-red-400 p-1" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>` : ''}
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        function updateStats() {
+            const totalValue = inventory.reduce((sum, item) => sum + (parseFloat(item.value) * item.quantity || 0), 0);
+            document.getElementById('statTotalItems').textContent = inventory.length;
+            document.getElementById('statLowStock').textContent = inventory.filter(i => i.quantity < 5).length;
+            document.getElementById('statTotalValue').textContent = `₱${totalValue.toLocaleString()}`;
+            document.getElementById('statSessionChanges').textContent = changesInCurrentSession;
+        }
+
+        function toggleSession() {
+            if (currentUser && currentUser.role.toLowerCase() === 'guest') { showToast('Guests cannot manage sessions.', 'error'); return; }
+            if (isSessionActive) { endSession(); } 
+            else {
+                isSessionActive = true;
+                sessionStartTime = new Date();
+                changesInCurrentSession = 0;
+                previousQuantities = {};
+                inventory.forEach(item => previousQuantities[item.id] = item.quantity);
+                
+                const btn = document.getElementById('sessionBtn');
+                const indicator = document.getElementById('sessionStatusIndicator');
+                
+                btn.textContent = 'End Session';
+                btn.classList.remove('bg-ece-surface', 'border-ece-primary');
+                btn.classList.add('bg-red-900', 'border-red-500', 'text-red-100');
+                
+                indicator.classList.remove('bg-slate-500', 'shadow-[0_0_5px_rgba(100,116,139,0.8)]');
+                indicator.classList.add('bg-red-500', 'shadow-[0_0_8px_rgba(239,68,68,1)]', 'animate-pulse');
+                
+                document.getElementById('sessionTracker').classList.add('border-red-900', 'bg-red-950', 'bg-opacity-30');
+
+                updateSessionTimer();
+                sessionTimerInterval = setInterval(updateSessionTimer, 1000);
+                
+                renderTable(); 
+                showToast('Inventory Session Started', 'info');
+            }
+        }
+
+        async function endSession() {
+            isSessionActive = false;
+            clearInterval(sessionTimerInterval);
+            const sessionEndTime = new Date();
+            const sessionDuration = sessionEndTime - sessionStartTime;
+            
+            for (const item of inventory) {
+                if (item.lastCheckQty !== item.quantity) {
+                    item.lastCheckQty = item.quantity;
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'inventory', item.id), item);
+                }
+            }
+
+            const newSession = {
+                id: 'SES-' + Date.now().toString().slice(-6),
+                startTime: sessionStartTime.toISOString(), endTime: sessionEndTime.toISOString(),
+                duration: sessionDuration, changesMade: changesInCurrentSession
+            };
+            
+            const newHistory = [newSession, ...sessions].slice(0, 50);
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'sessions'), { history: newHistory });
+
+            const btn = document.getElementById('sessionBtn');
+            const indicator = document.getElementById('sessionStatusIndicator');
+            
+            btn.textContent = 'Start Session';
+            btn.classList.add('bg-ece-surface', 'border-ece-primary');
+            btn.classList.remove('bg-red-900', 'border-red-500', 'text-red-100');
+            
+            indicator.classList.add('bg-slate-500', 'shadow-[0_0_5px_rgba(100,116,139,0.8)]');
+            indicator.classList.remove('bg-red-500', 'shadow-[0_0_8px_rgba(239,68,68,1)]', 'animate-pulse');
+            
+            document.getElementById('sessionTracker').classList.remove('border-red-900', 'bg-red-950', 'bg-opacity-30');
+            document.getElementById('sessionTimer').textContent = '00:00:00';
+
+            renderTable(); 
+            showToast(`Session Saved to Cloud. ${changesInCurrentSession} changes made.`, 'success');
+        }
+
+        function updateSessionTimer() {
+            if (!sessionStartTime) return;
+            const diff = new Date() - sessionStartTime;
+            const hours = Math.floor(diff / 3600000).toString().padStart(2, '0');
+            const minutes = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+            const seconds = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+            document.getElementById('sessionTimer').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function showSessionHistory() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+            if (sessions.length === 0) { list.innerHTML = '<li class="py-4 text-center text-slate-400">No session history available.</li>'; } 
+            else {
+                sessions.forEach(ses => {
+                    const durationMins = Math.floor(ses.duration / 60000);
+                    const durationStr = durationMins > 0 ? `${durationMins}m` : '<1m';
+                    list.innerHTML += `
+                        <li class="py-3 flex justify-between items-center">
+                            <div><p class="text-sm font-medium text-white">${formatDate(ses.startTime)}</p><p class="text-xs text-slate-400">${formatTime(ses.startTime)} - ${formatTime(ses.endTime)} (${durationStr})</p></div>
+                            <div class="text-right"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ece-surface bg-opacity-50 text-ece-primary border border-ece-primary border-opacity-30">${ses.changesMade} changes</span><p class="text-xs text-slate-500 mt-1 font-mono">${ses.id}</p></div>
+                        </li>`;
+                });
+            }
+            document.getElementById('historyModal').classList.remove('hidden');
+        }
+        function closeHistoryModal() { document.getElementById('historyModal').classList.add('hidden'); }
+
         function openCategoryModal() {
-            if (currentUser && currentUser.role.toLowerCase() === 'guest') {
-                showToast('Guests cannot manage categories.', 'error');
-                return;
-            }
+            if (currentUser && currentUser.role.toLowerCase() === 'guest') { showToast('Guests cannot manage categories.', 'error'); return; }
             renderCategoryManager();
             document.getElementById('categoryModal').classList.remove('hidden');
         }
 
-        function closeCategoryModal() {
-            document.getElementById('categoryModal').classList.add('hidden');
-        }
+        function closeCategoryModal() { document.getElementById('categoryModal').classList.add('hidden'); }
 
         function renderCategoryManager() {
             const list = document.getElementById('categoryList');
@@ -1774,181 +1187,245 @@
             categories.forEach(cat => {
                 const li = document.createElement('li');
                 li.className = 'py-3 flex justify-between items-center';
-                
                 if(cat.id === 'Other') {
-                    // Prevent deleting/renaming 'Other'
-                    li.innerHTML = `
-                        <span class="text-sm font-medium text-slate-300"><i class="fa-solid ${cat.icon} mr-2"></i> ${cat.name}</span>
-                        <span class="text-xs text-slate-500 italic">Default</span>
-                    `;
+                    li.innerHTML = `<span class="text-sm font-medium text-slate-300"><i class="fa-solid ${cat.icon} mr-2"></i> ${cat.name}</span><span class="text-xs text-slate-500 italic">Default</span>`;
                 } else {
                     li.innerHTML = `
-                        <div class="flex items-center flex-1 mr-2">
-                            <i class="fa-solid ${cat.icon} text-slate-400 mr-2"></i>
-                            <input type="text" value="${cat.name}" onchange="renameCategory('${cat.id}', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-600 focus:border-ece-primary focus:outline-none text-sm font-medium text-slate-200 w-full px-1 py-0.5 transition-colors">
-                        </div>
-                        <button onclick="deleteCategory('${cat.id}')" class="text-red-400 hover:text-red-300 p-1 rounded hover:bg-slate-700 transition-colors" title="Delete Category">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    `;
+                        <div class="flex items-center flex-1 mr-2"><i class="fa-solid ${cat.icon} text-slate-400 mr-2"></i><input type="text" value="${cat.name}" onchange="renameCategory('${cat.id}', this.value)" class="bg-transparent border-b border-transparent hover:border-slate-600 focus:border-ece-primary focus:outline-none text-sm font-medium text-slate-200 w-full px-1 py-0.5 transition-colors"></div>
+                        <button onclick="deleteCategory('${cat.id}')" class="text-red-400 hover:text-red-300 p-1 rounded hover:bg-slate-700"><i class="fa-solid fa-trash"></i></button>`;
                 }
                 list.appendChild(li);
             });
         }
 
-        function addCategory() {
+        async function addCategory() {
             const input = document.getElementById('newCategoryName');
             const name = input.value.trim();
             if(!name) return;
-            
-            // Check if exists
-            if(categories.find(c => c.name.toLowerCase() === name.toLowerCase())) {
-                showToast('Category already exists!', 'error');
-                return;
-            }
+            if(categories.find(c => c.name.toLowerCase() === name.toLowerCase())) { showToast('Category already exists!', 'error'); return; }
 
-            const newId = name;
-            categories.push({ id: newId, name: name, icon: 'fa-box' });
-            saveCategories();
-            renderCategoryManager();
+            const newCategoriesList = [...categories, { id: name, name: name, icon: 'fa-box' }];
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'categories'), { list: newCategoriesList });
             input.value = '';
-            showToast('Category added', 'success');
+            showToast('Category pushed to cloud', 'success');
         }
 
-        function renameCategory(id, newName) {
+        async function renameCategory(id, newName) {
             newName = newName.trim();
-            if(!newName) {
-                renderCategoryManager(); // revert
-                return;
-            }
+            if(!newName) { renderCategoryManager(); return; }
             
-            const cat = categories.find(c => c.id === id);
+            const newCategoriesList = [...categories];
+            const cat = newCategoriesList.find(c => c.id === id);
             if(cat) {
-                // Update all inventory items matching this category
-                inventory.forEach(item => {
-                    if(item.category === cat.id) {
-                        item.category = newName; 
+                for (const item of inventory) {
+                    if (item.category === cat.id) {
+                        item.category = newName;
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'inventory', item.id), item);
                     }
-                });
-                
-                cat.id = newName; 
-                cat.name = newName;
-                
-                saveData(); // saves inventory
-                saveCategories(); // saves categories
-                renderCategoryManager();
-                showToast('Category renamed', 'success');
+                }
+                cat.id = newName; cat.name = newName;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'categories'), { list: newCategoriesList });
+                showToast('Category renamed on Cloud', 'success');
             }
         }
 
-        function deleteCategory(id) {
+        async function deleteCategory(id) {
             if(id === 'Other') return;
-            if(confirm('Are you sure? Items in this category will automatically be moved to "Other".')) {
-                // Move items to 'Other'
-                let moved = false;
-                inventory.forEach(item => {
-                    if(item.category === id) {
+            if(confirm('Are you sure? Items in this category will move to "Other".')) {
+                for (const item of inventory) {
+                    if (item.category === id) {
                         item.category = 'Other';
-                        moved = true;
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'inventory', item.id), item);
                     }
-                });
+                }
+                const newCategoriesList = categories.filter(c => c.id !== id);
+                if(currentFilter === id) setFilter('All');
                 
-                categories = categories.filter(c => c.id !== id);
-                if(currentFilter === id) currentFilter = 'All'; // reset filter
-                
-                if(moved) saveData(); // Save inventory changes
-                saveCategories(); // Save category list
-                renderCategoryManager();
-                renderTable(); // Update UI
-                showToast('Category deleted', 'info');
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'appConfig', 'categories'), { list: newCategoriesList });
+                showToast('Category deleted from Cloud', 'info');
             }
         }
-        // --- END CATEGORY MANAGEMENT LOGIC ---
 
-        function toggleMobileMenu() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            
-            if (sidebar.classList.contains('hidden')) {
-                sidebar.classList.remove('hidden');
-                overlay.classList.remove('hidden');
-            } else {
-                sidebar.classList.add('hidden');
-                overlay.classList.add('hidden');
+        function openUserManagement() { renderUserTable(); document.getElementById('userModal').classList.remove('hidden'); }
+        function closeUserManagement() { document.getElementById('userModal').classList.add('hidden'); }
+
+        function renderUserTable() {
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+            authUsers.forEach(user => {
+                if (user.role.toLowerCase() === 'admin' && user.email === 'admin@cdm.edu.ph') return; 
+                
+                let statusBadge = '';
+                if (user.lockUntil && Date.now() < user.lockUntil) statusBadge = '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-900 text-red-300">Locked Out</span>';
+                else if (user.status === 'pending') statusBadge = '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-amber-900 text-amber-300">Pending</span>';
+                else statusBadge = '<span class="px-2 py-1 text-xs font-semibold rounded-full bg-emerald-900 text-emerald-300">Approved</span>';
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="px-4 py-3 text-sm text-white font-medium">
+                            <div class="flex flex-col">
+                                <span>${user.name}</span>
+                                <select onchange="changeUserRole('${user.email}', this.value)" class="mt-1 bg-ece-dark text-xs border border-slate-600 rounded px-1 py-0.5 text-slate-300 focus:outline-none w-fit">
+                                    <option value="Student Assistant" ${user.role === 'Student Assistant' ? 'selected' : ''}>Student Assistant</option>
+                                    <option value="Guest" ${user.role === 'Guest' ? 'selected' : ''}>Guest</option>
+                                    <option value="Admin" ${user.role === 'Admin' || user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 text-sm text-slate-300">${user.email}</td>
+                        <td class="px-4 py-3 text-center">${statusBadge}</td>
+                        <td class="px-4 py-3 text-right space-x-3">
+                            ${user.status === 'pending' ? `<button onclick="updateUserStatus('${user.email}', 'approved')" class="text-emerald-400 hover:text-emerald-300" title="Approve"><i class="fa-solid fa-check"></i></button>` : ''}
+                            ${(user.lockUntil && Date.now() < user.lockUntil) ? `<button onclick="unlockUser('${user.email}')" class="text-amber-400 hover:text-amber-300" title="Unlock Early"><i class="fa-solid fa-unlock"></i></button>` : ''}
+                            <button onclick="deleteUser('${user.email}')" class="text-red-400 hover:text-red-300" title="Delete User"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        async function changeUserRole(email, newRole) {
+            const user = authUsers.find(u => u.email === email);
+            if (user) {
+                user.role = newRole;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', email), user);
+                showToast(`User role updated to ${newRole}`, 'success');
             }
+        }
+        async function updateUserStatus(email, status) {
+            const user = authUsers.find(u => u.email === email);
+            if (user) {
+                user.status = status;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', email), user);
+                showToast(`User approved on Cloud.`, 'success');
+            }
+        }
+        async function unlockUser(email) {
+            const user = authUsers.find(u => u.email === email);
+            if (user) {
+                user.attempts = 0; user.lockUntil = null;
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', email), user);
+                showToast('User account unlocked.', 'success');
+            }
+        }
+        async function deleteUser(email) {
+            if(confirm('Are you sure you want to permanently delete this user from the system?')) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', email));
+                showToast('User deleted from Cloud.', 'info');
+            }
+        }
+
+        function openProfileModal() {
+            document.getElementById('profileName').value = currentUser.name;
+            document.getElementById('profileRole').value = currentUser.role || 'Guest';
+            if(currentUser.email !== 'admin@cdm.edu.ph') {
+                document.getElementById('profileRole').disabled = true;
+                document.getElementById('profileRole').classList.add('opacity-50', 'cursor-not-allowed');
+            }
+            const preview = document.getElementById('profilePreview');
+            if (currentUser.avatar) { preview.style.backgroundImage = `url(${currentUser.avatar})`; preview.textContent = ''; } 
+            else { preview.style.backgroundImage = 'none'; preview.textContent = currentUser.name.charAt(0).toUpperCase(); }
+            pendingProfilePicBase64 = currentUser.avatar;
+            document.getElementById('profileModal').classList.remove('hidden');
+        }
+
+        function closeProfileModal() { document.getElementById('profileModal').classList.add('hidden'); pendingProfilePicBase64 = null; }
+
+        function previewProfilePic(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_SIZE = 150; let width = img.width; let height = img.height;
+                        if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+                        else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
+                        pendingProfilePicBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                        document.getElementById('profilePreview').style.backgroundImage = `url(${pendingProfilePicBase64})`;
+                        document.getElementById('profilePreview').textContent = '';
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function saveProfile() {
+            const newName = document.getElementById('profileName').value.trim();
+            const newRole = document.getElementById('profileRole').value;
+            if(!newName) { showToast('Name is required', 'error'); return; }
+
+            currentUser.name = newName; currentUser.role = newRole; currentUser.avatar = pendingProfilePicBase64;
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', currentUser.email), currentUser);
+            
+            closeProfileModal();
+            showToast('Profile updated globally!', 'success');
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.className = `fixed bottom-4 right-4 border-l-4 px-4 py-3 rounded shadow-lg transform transition-all duration-300 z-[150] flex items-center bg-slate-800 text-white`;
+            
+            const iconEl = document.getElementById('toastIcon');
+            if (type === 'success') { toast.classList.add('border-emerald-500'); iconEl.className = 'fa-solid fa-circle-check text-emerald-500 mr-3'; } 
+            else if (type === 'error') { toast.classList.add('border-red-500'); iconEl.className = 'fa-solid fa-circle-xmark text-red-500 mr-3'; } 
+            else { toast.classList.add('border-ece-primary'); iconEl.className = 'fa-solid fa-circle-info text-ece-primary mr-3'; }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+        }
+
+        function printInventory() {
+            const now = new Date();
+            document.getElementById('printDate').textContent = `Date Printed: ${formatDate(now.toISOString())} ${formatTime(now.toISOString())}`;
+            document.getElementById('printSessionTime').textContent = isSessionActive ? `Active Session: ${document.getElementById('sessionTimer').textContent}` : '';
+            window.print();
         }
 
         function exportToCSV() {
-            if (inventory.length === 0) {
-                showToast('No inventory data to export', 'error');
-                return;
-            }
-
-            // Define CSV headers
+            if (inventory.length === 0) { showToast('No inventory data to export', 'error'); return; }
             const headers = ['ID', 'Equipment Name', 'Brand', 'Category', 'Quantity', 'Previous Quantity', 'Difference', 'Location', 'Est. Value', 'Damage', 'Missing Parts', 'Notes', 'Last Updated'];
             
-            // Map inventory data to CSV rows
             const rows = inventory.map(item => {
                 const diff = item.quantity - (item.lastCheckQty || item.quantity);
                 const diffStr = diff > 0 ? `+${diff}` : diff.toString();
-                
                 return [
-                    `"${item.id}"`,
-                    `"${item.name.replace(/"/g, '""')}"`, // Escape quotes in text
-                    `"${(item.brand || '').replace(/"/g, '""')}"`,
-                    `"${item.category}"`,
-                    item.quantity,
-                    item.lastCheckQty || item.quantity,
-                    `"${diffStr}"`,
-                    `"${(item.location || '').replace(/"/g, '""')}"`,
-                    item.value || 0,
-                    `"${(item.damage || '').replace(/"/g, '""')}"`,
-                    `"${(item.missing || '').replace(/"/g, '""')}"`,
-                    `"${(item.notes || '').replace(/"/g, '""')}"`,
+                    `"${item.id}"`, `"${item.name.replace(/"/g, '""')}"`, `"${(item.brand || '').replace(/"/g, '""')}"`, `"${item.category}"`,
+                    item.quantity, item.lastCheckQty || item.quantity, `"${diffStr}"`, `"${(item.location || '').replace(/"/g, '""')}"`,
+                    item.value || 0, `"${(item.damage || '').replace(/"/g, '""')}"`, `"${(item.missing || '').replace(/"/g, '""')}"`, `"${(item.notes || '').replace(/"/g, '""')}"`,
                     `"${new Date(item.lastUpdated).toLocaleString('en-PH')}"`
                 ];
             });
 
-            // Combine headers and rows
-            const csvContent = [
-                headers.join(','),
-                ...rows.map(row => row.join(','))
-            ].join('\n');
-
-            // Create a Blob and trigger download
+            const csvContent = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             
             const now = new Date();
-            const dateStr = now.toISOString().split('T')[0];
-            const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '');
-            const filename = `ECE_Lab_Inventory_Report_${dateStr}_${timeStr}.csv`;
+            const filename = `ECE_Lab_Inventory_Report_${now.toISOString().split('T')[0]}_${now.toTimeString().split(' ')[0].replace(/:/g, '')}.csv`;
 
             const link = document.createElement('a');
-            link.setAttribute('href', url);
-            link.setAttribute('download', filename);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
+            link.setAttribute('href', url); link.setAttribute('download', filename); link.style.visibility = 'hidden';
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
             showToast('Inventory exported to Excel (CSV)', 'success');
         }
 
-        // Event Listeners
         document.getElementById('searchInput').addEventListener('input', renderTable);
-        document.getElementById('sessionBtn').addEventListener('click', toggleSession);
-        document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
-        document.getElementById('sidebarOverlay').addEventListener('click', toggleMobileMenu);
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('hidden');
+            document.getElementById('sidebarOverlay').classList.toggle('hidden');
+        });
+        document.getElementById('sidebarOverlay').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.add('hidden');
+            document.getElementById('sidebarOverlay').classList.add('hidden');
+        });
 
-        // Initialize
-        initializeData();
-        initAuth(); // Check authentication state on load
-        populateCategoryDropdown();
-        renderSidebarCategories();
-        renderTable();
-        updateStats();
-        renderActivityLog();
+        initAuth();
+        initFirebase();
 
     </script>
 </body>
